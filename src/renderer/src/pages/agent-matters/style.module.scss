@@ -1,0 +1,68 @@
+$emergency-degree-height: 32px;
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.agent-matters {
+    position: relative;
+
+    .emergency-degree {
+        height: $emergency-degree-height;
+        background-color: #fff;
+        border-radius: 15px;
+        padding: 0 10px;
+        width: 500px;
+
+        .emergency-degree-title {
+            font-weight: 600;
+            margin-right: 20px;
+        }
+    }
+
+    .emergency-degree-list {
+        padding: 10px 40px;
+        height: calc(100vh - $emergency-degree-height - 20px - 20px);
+        width: calc(100vw - 20px - 80px);
+        overflow-y: auto;
+        white-space: 'nowrap';
+
+        .add-emergency-degree {
+            background-color: rgba(#fff, 0.4);
+            height: 50px;
+            line-height: 50px;
+            width: 300px;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+            text-align: center;
+            cursor: pointer;
+        }
+    }
+
+    .emergency-degree-list-left {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translate(0, -50%);
+        z-index: 1;
+        padding: 20px;
+
+        &:hover {
+            cursor: pointer;
+            background-color: rgba($color: #eee, $alpha: 0.5);
+        }
+    }
+
+    .emergency-degree-list-right {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translate(0, -50%);
+        z-index: 1;
+        padding: 20px;
+
+        &:hover {
+            cursor: pointer;
+            background-color: rgba($color: #eee, $alpha: 0.5);
+        }
+    }
+}

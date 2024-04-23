@@ -1,0 +1,21 @@
+/* WebKit浏览器 */
+
+::-webkit-scrollbar {
+    width: 1px;
+    height: 5px;
+}
+
+// 滚动条轨道色
+::-webkit-scrollbar-track {
+    background: #fff;
+}
+
+// 滚动条柱体颜色
+::-webkit-scrollbar-thumb {
+    background: #000;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #000;
+}
