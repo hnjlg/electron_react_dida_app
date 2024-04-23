@@ -55,15 +55,25 @@ const Index = () => {
         navigate(item.key);
     }
 
+    const logoClick = () => {
+        navigate('/index');
+    }
+
     return (
         <div className={styles['pages-index']}>
-            <Menu
-                defaultSelectedKeys={location.pathname}
-                mode="inline"
-                inlineCollapsed={true}
-                items={items}
-                onClick={menuClick}
-            />
+            <div>
+                <div className={styles['pages-index-header']} onClick={() => logoClick()}>
+                    <div className={styles['pages-index-logo']}></div>
+                    <div className={styles['pages-index-logo-text']}>嘀咕待办</div>
+                </div>
+                <Menu
+                    defaultSelectedKeys={location.pathname}
+                    mode="inline"
+                    inlineCollapsed={true}
+                    items={items}
+                    onClick={menuClick}
+                />
+            </div>
             <div className={styles['pages-index-outlet']}>
                 <Outlet />
             </div>
