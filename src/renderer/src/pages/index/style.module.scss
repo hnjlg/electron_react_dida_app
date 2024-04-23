@@ -1,0 +1,9 @@
+.pages-index {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    .pages-index-outlet {
+        flex: 1;
+        background: linear-gradient(to bottom right, #E2EDFB, #F7F9FC);
+    }
+}
