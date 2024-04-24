@@ -17,14 +17,13 @@ const updateTable = () => {
 const createTable = () => {
     db.serialize(() => {
         db.run(`CREATE TABLE IF NOT EXISTS agent_matters (
-                    id                          VARCHAR (50) NOT NULL,
+                    id                          INTEGER PRIMARY KEY AUTOINCREMENT,
                     title                       VARCHAR (50) NOT NULL,
                     four_quadrant_value         VARCHAR (50) NOT NULL,
                     state                       INT DEFAULT 0 NOT NULL,
                     begin_time                  VARCHAR (100) NOT NULL,
                     end_time                    VARCHAR (100) NOT NULL,
-                    description                 TEXT NOT NULL,
-                    primary key (id)
+                    description                 TEXT NOT NULL
                 );`
         )
     });

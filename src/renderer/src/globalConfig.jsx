@@ -1,4 +1,4 @@
-const fourQuadrantValues = {
+const FourQuadrantValues = {
     重要紧急: 'important-urgency',
     不重要紧急: 'not-important-urgency',
     重要不紧急: 'important-not-urgency',
@@ -12,10 +12,10 @@ const AgentMatterState = {
 }
 
 // 冻结对象不让修改
-Object.freeze(fourQuadrantValues);
+Object.freeze(FourQuadrantValues);
 Object.freeze(AgentMatterState);
 
 export {
-    fourQuadrantValues,
+    FourQuadrantValues,
     AgentMatterState
 }
