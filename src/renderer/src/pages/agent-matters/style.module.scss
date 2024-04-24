@@ -18,6 +18,15 @@ $emergency-degree-height: 32px;
             font-weight: 600;
             margin-right: 20px;
         }
+
+        .emergency-degree-four-quadrant-item {
+            transition: all 0.5s;
+            cursor: pointer;
+
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
     }
 
     .emergency-degree-list {
@@ -27,6 +36,15 @@ $emergency-degree-height: 32px;
         overflow-y: auto;
         white-space: 'nowrap';
 
+        .emergency-degree-list-item {
+            width: 300px;
+            transition: all 0.3s;
+
+            &:hover {
+                transform: translateY(-5px);
+            }
+        }
+
         .add-emergency-degree {
             background-color: rgba(#fff, 0.4);
             height: 50px;
@@ -35,6 +53,11 @@ $emergency-degree-height: 32px;
             box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
             text-align: center;
             cursor: pointer;
+            transition: all 0.5s;
+
+            &:hover {
+                transform: scale(1.1);
+            }
         }
     }
 
@@ -45,10 +68,13 @@ $emergency-degree-height: 32px;
         transform: translate(0, -50%);
         z-index: 1;
         padding: 20px;
+        transition: all 0.5s;
+        border-radius: 10px;
 
         &:hover {
             cursor: pointer;
-            background-color: rgba($color: #eee, $alpha: 0.5);
+            background-color: rgba($color: #ccc, $alpha: 0.5);
+            transform: translate(-5px, -50%) scale(1.1);
         }
     }
 
@@ -59,10 +85,13 @@ $emergency-degree-height: 32px;
         transform: translate(0, -50%);
         z-index: 1;
         padding: 20px;
+        transition: all 0.5s;
+        border-radius: 10px;
 
         &:hover {
             cursor: pointer;
-            background-color: rgba($color: #eee, $alpha: 0.5);
+            background-color: rgba($color: #ccc, $alpha: 0.5);
+            transform: translate(-5px, -50%) scale(1.1);
         }
     }
 }
