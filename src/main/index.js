@@ -2,7 +2,8 @@ import { app, shell, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import ipcInit from './ipc/index'
+import mainWindowIpcInit from './ipc/mainWindow'
+import sqliteInit from './sqlite/index'
 
 
 function createWindow() {
@@ -51,9 +52,14 @@ function createWindow() {
   }
 
   /* 
-    应用ipc注册
+    mainWindow窗口ipc注册
   */
-  ipcInit();
+  mainWindowIpcInit(mainWindow.webContents.ipc);
+
+  /* 
+    数据库初始化
+  */
+  sqliteInit();
 }
 
 
@@ -77,9 +83,7 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC test
-
-
+  // 打开主窗口
   createWindow()
 
   // 如果没有窗口打开则打开一个窗口

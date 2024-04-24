@@ -1,40 +1,61 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Flex, Tag, Card, Modal, Form, Button, Input } from 'antd';
 import { AlertOutlined, TagsOutlined, LeftOutlined, RightOutlined, PlusOutlined } from '@ant-design/icons';
 import styles from './style.module.scss';
+import { fourQuadrantValues } from '@renderer/globalConfig';
 
 // 四象限状态Options
-const fourQuadrantOptions = [
-    {
-        icon: <AlertOutlined />,
-        color: '#cd201f',
-        label: '重要紧急',
-        value: 'important-urgency'
-    },
-    {
-        icon: <AlertOutlined />,
-        color: '#FF5500',
-        label: '不重要紧急',
-        value: 'important-urgency'
-    },
-    {
-        icon: <AlertOutlined />,
-        color: '#3b5999',
-        label: '重要不紧急',
-        value: 'important-urgency'
-    },
-    {
-        icon: <AlertOutlined />,
-        color: '#55acee',
-        label: '不重要不紧急',
-        value: 'important-urgency'
+const fourQuadrantOptions = Object.keys(fourQuadrantValues).map(key => {
+    switch (key) {
+        case '重要紧急':
+            return {
+                icon: <AlertOutlined />,
+                color: '#cd201f',
+                label: '重要紧急',
+                value: fourQuadrantValues[key]
+            }
+        case '不重要紧急':
+            return {
+                icon: <AlertOutlined />,
+                color: '#FF5500',
+                label: '不重要紧急',
+                value: fourQuadrantValues[key]
+            }
+        case '重要不紧急':
+            return {
+                icon: <AlertOutlined />,
+                color: '#3b5999',
+                label: '重要不紧急',
+                value: fourQuadrantValues[key]
+            }
+        case '不重要不紧急':
+            return {
+                icon: <AlertOutlined />,
+                color: '#55acee',
+                label: '不重要不紧急',
+                value: fourQuadrantValues[key]
+            }
     }
-]
+})
 
 const AgentMatters = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [agentMatters, setAgentMatters] = useState([]);
+
+    useEffect(() => {
+        window.electron.ipcRenderer.on('get-agent-matters-callback', (event, agentMatters) => {
+            setAgentMatters(agentMatters);
+        })
+
+        getAgentMatters({
+            'four_quadrant_value': fourQuadrantValues.重要紧急
+        });
+    }, []);
+
+    const getAgentMatters = (queryParams) => window.electron.ipcRenderer.send('get-agent-matters', queryParams)
 
     const showModal = () => {
         setIsModalOpen(true);
@@ -64,7 +85,11 @@ const AgentMatters = () => {
                     <Flex>
                         {
                             fourQuadrantOptions.map(fourQuadrantItem =>
-                                <Tag icon={fourQuadrantItem.icon} color={fourQuadrantItem.color} className={styles['emergency-degree-four-quadrant-item']}>
+                                <Tag key={fourQuadrantItem.value} icon={fourQuadrantItem.icon} color={fourQuadrantItem.color} className={styles['emergency-degree-four-quadrant-item']} onClick={() => {
+                                    getAgentMatters({
+                                        ['four_quadrant_value']: fourQuadrantItem.value
+                                    })
+                                }}>
                                     {fourQuadrantItem.label}
                                 </Tag>
                             )
@@ -72,15 +97,18 @@ const AgentMatters = () => {
                     </Flex>
                 </Flex>
                 <Flex gap='10px' wrap='wrap' className={styles['emergency-degree-list']}>
-                    <Card
-                        className={styles['emergency-degree-list-item']}
-                        title="Card title"
-                        bordered={false}
-                    >
-                        <p>Card content</p>
-                        <p>Card content</p>
-                        <p>Card content</p>
-                    </Card>
+                    {
+                        agentMatters.map(item =>
+                            <Card
+                                className={styles['emergency-degree-list-item']}
+                                title={item.title}
+                                bordered={false}
+                                key={item.id}
+                            >
+                                {item.description}
+                            </Card>)
+                    }
+
                     <div className={styles['add-emergency-degree']} onClick={showModal}>
                         <PlusOutlined />
                         新增代办
