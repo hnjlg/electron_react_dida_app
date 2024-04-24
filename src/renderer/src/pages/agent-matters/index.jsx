@@ -5,7 +5,6 @@ import { AlertOutlined, TagsOutlined, LeftOutlined, RightOutlined, PlusOutlined 
 import styles from './style.module.scss';
 import { FourQuadrantValues, AgentMatterState } from '@renderer/globalConfig';
 import dayjs from 'dayjs';
-import classNames from 'classnames';
 
 const { Title } = Typography;
 
@@ -153,10 +152,9 @@ const AgentMatters = () => {
     }
 
     // 标签动态class
-    const emergencyDegreeFourQuadrantClass = (fourQuadrantItem) => classNames({
-        [styles['emergency-degree-four-quadrant-item']]: true,
-        [styles['emergency-degree-four-quadrant-item-select']]: fourQuadrantItem.value === fourQuadrantValue,
-    });
+    const emergencyDegreeFourQuadrantClass = (fourQuadrantItem) =>
+        styles['emergency-degree-four-quadrant-item'] + ' ' + (fourQuadrantItem.value === fourQuadrantValue ? styles['emergency-degree-four-quadrant-item-select'] : '');
+
 
     return (
         <>

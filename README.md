@@ -1,4 +1,4 @@
-# electron-app
+# dida-app
 
 An Electron application with React
 

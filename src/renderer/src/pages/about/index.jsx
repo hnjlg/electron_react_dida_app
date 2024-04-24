@@ -14,7 +14,7 @@ const About = () => {
                 <Typography.Title level={4}>注意事项</Typography.Title>
                 <Alert
                     message="注意"
-                    description="软件使用的本地数据库，卸载软件则会丢失所有数据"
+                    description="软件使用的本地数据库，清除用户AppData\Roaming\dida-app\sys_db.db文件则会丢失所有数据"
                     type="warning"
                     showIcon
                 />

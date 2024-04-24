@@ -2,7 +2,7 @@ import { app } from 'electron';
 import path from 'path';
 import sqlite3 from 'sqlite3';
 
-const dbFilePath = path.join(path.dirname(app.getPath('userData')), '/sys_db.db');
+const dbFilePath = path.join(path.dirname(app.getPath('userData')), 'dida-app', '/sys_db.db');
 
 console.log('sql path:', dbFilePath);
 
