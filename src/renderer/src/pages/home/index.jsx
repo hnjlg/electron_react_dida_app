@@ -1,14 +1,61 @@
-import { Card, Statistic, Row, Col, Timeline, Space, Badge } from 'antd';
+import { Card, Statistic, Row, Col, Timeline, Space, Badge, Divider } from 'antd';
 import {
     FileDoneOutlined,
     FileUnknownOutlined,
-    ClockCircleOutlined
 } from '@ant-design/icons';
 import CountUp from 'react-countup';
+import { useEffect, useState } from 'react';
+import { AgentMatterState } from '@renderer/globalConfig';
+
+console.log(AgentMatterState, 'AgentMatterState');
 
 const formatter = (value) => <CountUp end={value} separator="," />;
 
 const Home = () => {
+    const [DoneNum, setDoneNum] = useState(0);
+
+    const [waitDoneNum, setWaitDoneNum] = useState(0);
+
+    const [timelineData, setTimelineData] = useState([]);
+
+    window.electron.ipcRenderer.on('get-agent-matters-callback', (event, agentMatters, options) => {
+        switch (options.state) {
+            case AgentMatterState['已完成']:
+                {
+                    setDoneNum(agentMatters.length);
+                }
+                break;
+            case AgentMatterState['待完成']:
+                {
+                    setWaitDoneNum(agentMatters.length);
+                }
+                break;
+        }
+    });
+
+    window.electron.ipcRenderer.on('get-operate-logs-callback', (event, operateLogs) => {
+        setTimelineData(operateLogs.map(item => {
+            return {
+                children: item.description + ' ' + item.create_time
+            }
+        }))
+    })
+
+    useEffect(() => {
+        window.electron.ipcRenderer.send('get-agent-matters', {
+            state: AgentMatterState['已完成']
+        }, {
+            state: AgentMatterState['已完成']
+        });
+        window.electron.ipcRenderer.send('get-agent-matters', {
+            state: AgentMatterState['待完成']
+        }, {
+            state: AgentMatterState['待完成']
+        });
+        window.electron.ipcRenderer.send('get-operate-logs');
+    }, []);
+
+
     return (
         <>
             <Space
@@ -22,23 +69,8 @@ const Home = () => {
                         <Badge.Ribbon text="查看详情" style={{ 'cursor': 'pointer' }}>
                             <Card bordered={false}>
                                 <Statistic
-                                    title="完成事项"
-                                    value={12}
-                                    precision={0}
-                                    valueStyle={{ color: '#3f8600' }}
-                                    prefix={<FileDoneOutlined />}
-                                    formatter={formatter}
-                                    suffix="个"
-                                />
-                            </Card>
-                        </Badge.Ribbon>
-                    </Col>
-                    <Col span={12}>
-                        <Badge.Ribbon text="查看详情" style={{ 'cursor': 'pointer' }}>
-                            <Card bordered={false}>
-                                <Statistic
                                     title="待办事项"
-                                    value={8}
+                                    value={waitDoneNum}
                                     precision={0}
                                     valueStyle={{
                                         color: '#cf1322',
@@ -48,47 +80,27 @@ const Home = () => {
                                 />
                             </Card>
                         </Badge.Ribbon>
-
+                    </Col>
+                    <Col span={12}>
+                        <Badge.Ribbon text="查看详情" style={{ 'cursor': 'pointer' }}>
+                            <Card bordered={false}>
+                                <Statistic
+                                    title="完成事项"
+                                    value={DoneNum}
+                                    precision={0}
+                                    valueStyle={{ color: '#3f8600' }}
+                                    prefix={<FileDoneOutlined />}
+                                    formatter={formatter}
+                                    suffix="个"
+                                />
+                            </Card>
+                        </Badge.Ribbon>
                     </Col>
                 </Row>
+                <Divider plain>操作记录</Divider>
                 <Timeline
                     mode="alternate"
-                    items={[
-                        {
-                            children: 'Create a services site 2015-09-01',
-                        },
-                        {
-                            children: 'Solve initial network problems 2015-09-01',
-                            color: 'green',
-                        },
-                        {
-                            dot: (
-                                <ClockCircleOutlined
-                                    style={{
-                                        fontSize: '16px',
-                                    }}
-                                />
-                            ),
-                            children: `Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.`,
-                        },
-                        {
-                            color: 'red',
-                            children: 'Network problems being solved 2015-09-01',
-                        },
-                        {
-                            children: 'Create a services site 2015-09-01',
-                        },
-                        {
-                            dot: (
-                                <ClockCircleOutlined
-                                    style={{
-                                        fontSize: '16px',
-                                    }}
-                                />
-                            ),
-                            children: 'Technical testing 2015-09-01',
-                        },
-                    ]}
+                    items={timelineData}
                 />
             </Space >
         </>

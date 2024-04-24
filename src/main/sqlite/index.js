@@ -16,6 +16,7 @@ const updateTable = () => {
 
 const createTable = () => {
     db.serialize(() => {
+        // 事项表
         db.run(`CREATE TABLE IF NOT EXISTS agent_matters (
                     id                          INTEGER PRIMARY KEY AUTOINCREMENT,
                     title                       VARCHAR (50) NOT NULL,
@@ -25,6 +26,14 @@ const createTable = () => {
                     end_time                    VARCHAR (100) NOT NULL,
                     description                 TEXT NOT NULL
                 );`
+        );
+
+        // 操作记录表
+        db.run(`CREATE TABLE IF NOT EXISTS operate_log  (
+                id                          INTEGER PRIMARY KEY AUTOINCREMENT,
+                create_time                 VARCHAR (100) NOT NULL,
+                description                 TEXT NOT NULL
+            );`
         )
     });
 }

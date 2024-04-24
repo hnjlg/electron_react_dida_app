@@ -32,3 +32,7 @@ $ npm run build:mac
 # For Linux
 $ npm run build:linux
 ```
+
+# 问题备注
+
+操作日志后续会很多，需要做分页查询
