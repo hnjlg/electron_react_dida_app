@@ -2,10 +2,13 @@ import { List, Radio, Flex, Divider, Button } from 'antd';
 import { useState, useEffect } from 'react';
 import { AgentMatterState } from '@renderer/globalConfig'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { useSearchParams } from 'react-router-dom';
 
 const AgentMattersList = () => {
 
-    const [stateDefaultValue, setStateDefaultValue] = useState('all');
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const [stateDefaultValue, setStateDefaultValue] = useState(Number(searchParams.get('state')));
 
     const [isHasMore, setIsHasMore] = useState(true);
 
@@ -30,7 +33,6 @@ const AgentMattersList = () => {
     });
 
     useEffect(() => {
-        console.log('useEffect');
         getAgentMatters(queryParams, {
             type: 'init'
         });

@@ -6,10 +6,14 @@ import {
 import CountUp from 'react-countup';
 import { useEffect, useState } from 'react';
 import { AgentMatterState } from '@renderer/globalConfig';
+import { useNavigate } from 'react-router-dom';
 
 const formatter = (value) => <CountUp end={value} separator="," />;
 
 const Home = () => {
+
+    const navigate = useNavigate();
+
     const [DoneNum, setDoneNum] = useState(0);
 
     const [waitDoneNum, setWaitDoneNum] = useState(0);
@@ -37,7 +41,12 @@ const Home = () => {
             ...operateLogQueryParams,
             pageIndex: newPageIndex
         });
-    }
+    };
+
+    const showDetail = (state) => {
+        console.log(state);
+        navigate(`/index/agent-matters-list?state=${state}`);
+    };
 
     window.electron.ipcRenderer.on('get-agent-matters-callback', (event, agentMatters, options) => {
         switch (options.state) {
@@ -100,8 +109,8 @@ const Home = () => {
                 }}
             >
                 <Row gutter={16}>
-                    <Col span={8}>
-                        <Badge.Ribbon text="查看详情" style={{ 'cursor': 'pointer' }}>
+                    <Col span={8} style={{ 'cursor': 'pointer' }} onClick={() => showDetail(AgentMatterState['待完成'])}>
+                        <Badge.Ribbon text="查看详情" >
                             <Card bordered={false}>
                                 <Statistic
                                     title="待办事项"
@@ -116,8 +125,8 @@ const Home = () => {
                             </Card>
                         </Badge.Ribbon>
                     </Col>
-                    <Col span={8}>
-                        <Badge.Ribbon text="查看详情" style={{ 'cursor': 'pointer' }}>
+                    <Col span={8} style={{ 'cursor': 'pointer' }} onClick={() => showDetail(AgentMatterState['查看详情'])}>
+                        <Badge.Ribbon text="查看详情" >
                             <Card bordered={false}>
                                 <Statistic
                                     title="完成事项"
@@ -131,8 +140,8 @@ const Home = () => {
                             </Card>
                         </Badge.Ribbon>
                     </Col>
-                    <Col span={8}>
-                        <Badge.Ribbon text="查看详情" style={{ 'cursor': 'pointer' }}>
+                    <Col span={8} style={{ 'cursor': 'pointer' }} onClick={() => showDetail(AgentMatterState['已关闭'])}>
+                        <Badge.Ribbon text="查看详情" >
                             <Card bordered={false}>
                                 <Statistic
                                     title="已关闭"
