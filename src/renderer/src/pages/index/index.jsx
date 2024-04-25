@@ -62,14 +62,14 @@ const Index = () => {
                 </Flex>
                 <Flex vertical justify='space-between' flex='1'>
                     <Menu
-                        defaultSelectedKeys={location.pathname}
+                        selectedKeys={[location.pathname]}
                         mode="inline"
                         inlineCollapsed={true}
                         items={topMenus}
                         onClick={menuClick}
                     />
                     <Menu
-                        defaultSelectedKeys={location.pathname}
+                        selectedKeys={[location.pathname]}
                         mode="inline"
                         inlineCollapsed={true}
                         items={bottomMenus}
