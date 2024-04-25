@@ -3,7 +3,9 @@ import NotFound from '@renderer/pages/not-found';
 import Index from '@renderer/pages/index';
 import About from '@renderer/pages/about';
 import Home from '@renderer/pages/home';
-import AgentMatters from '@renderer/pages/agent-matters'
+import AgentMattersFour from '@renderer/pages/agent-matters-four';
+import AgentMattersList from '@renderer/pages/agent-matters-list';
+import Setting from '@renderer/pages/setting';
 
 // 全局路由
 export const globalRouters = createHashRouter([
@@ -24,8 +26,16 @@ export const globalRouters = createHashRouter([
                 element: <About />,
             },
             {
-                path: 'agent-matters',
-                element: <AgentMatters />
+                path: 'agent-matters-four',
+                element: <AgentMattersFour />
+            },
+            {
+                path: 'agent-matters-list',
+                element: <AgentMattersList />
+            },
+            {
+                path: 'setting',
+                element: <Setting />
             },
             {
                 path: '*',
