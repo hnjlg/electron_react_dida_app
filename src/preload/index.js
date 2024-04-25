@@ -1,5 +1,7 @@
 import { contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import fs from 'fs';
+import path from 'path';
 
 /* 
   判断是否启用了上下文隔离
@@ -17,3 +19,10 @@ if (process.contextIsolated) {
 } else {
   window.electron = electronAPI
 }
+
+contextBridge.exposeInMainWorld('file', {
+  // filePath从项目根目录开始
+  readFile: (filePath) => {
+    return fs.readFileSync(filePath, 'utf-8');
+  }
+});

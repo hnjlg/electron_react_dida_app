@@ -1,9 +1,10 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { app, shell, BrowserWindow, session } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import mainWindowIpcInit from './ipc/mainWindow'
-import sqliteInit from './sqlite/index'
+import mainWindowIpcInit from './ipc/main-window/index'
+import sqliteInit from './sqlite/index';
+import acceleratorInit from './accelerator';
 
 
 function createWindow() {
@@ -21,8 +22,9 @@ function createWindow() {
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false,
+      nodeIntegration: true,
     }
-  })
+  });
 
   /* 
     在加载页面时，渲染进程第一次完成绘制时，如果窗口还没有被显示，
@@ -60,7 +62,14 @@ function createWindow() {
     数据库初始化
   */
   sqliteInit();
-}
+
+
+  /* 
+    注册快捷键
+  */
+  acceleratorInit(mainWindow.webContents.ipc);
+};
+
 
 
 /* 
@@ -93,7 +102,7 @@ app.whenReady().then(() => {
     */
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
-})
+});
 
 /* 
   当所有窗口都关闭时退出，除了MacOS上。 在那里，应用程序及其菜单栏是很常见的，直到用户用CMD + Q明确退出。
@@ -102,4 +111,4 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
-})
+});

@@ -1,4 +1,4 @@
-import { Tabs, Typography } from 'antd';
+import { Tabs, Typography, Table } from 'antd';
 import { AppstoreOutlined, DesktopOutlined, InsertRowBelowOutlined, EllipsisOutlined } from '@ant-design/icons';
 
 const ConventionalChild = () => {
@@ -14,8 +14,29 @@ const SystemChild = () => {
 };
 
 const ShortcutKeyChild = () => {
+    const data = [
+        {
+            key: '1',
+            name: '彩蛋',
+            accelerator: 'CTRL+M'
+        },
+    ];
+
+    const columns = [
+        {
+            title: '功能说明',
+            dataIndex: 'name',
+            key: 'name',
+        },
+        {
+            title: '快捷键',
+            dataIndex: 'accelerator',
+            key: 'accelerator',
+        },
+    ]
+
     return (
-        <>ShortcutKeyChild</>
+        <Table columns={columns} dataSource={data} />
     )
 };
 
