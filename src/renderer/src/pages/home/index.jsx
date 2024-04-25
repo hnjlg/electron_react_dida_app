@@ -7,8 +7,6 @@ import CountUp from 'react-countup';
 import { useEffect, useState } from 'react';
 import { AgentMatterState } from '@renderer/globalConfig';
 
-console.log(AgentMatterState, 'AgentMatterState');
-
 const formatter = (value) => <CountUp end={value} separator="," />;
 
 const Home = () => {
@@ -62,9 +60,8 @@ const Home = () => {
     });
 
     window.electron.ipcRenderer.on('get-operate-logs-callback', (event, operateLogs) => {
-        if (operateLogs.length === 0) {
+        if (operateLogs.length < operateLogQueryParams.pageSize) {
             setIsHasMoreLog(false);
-            return;
         };
 
         setTimelineData(timelineData.concat(operateLogs.map(item => {

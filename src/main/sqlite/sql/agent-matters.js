@@ -2,13 +2,30 @@ import { db } from '../index';
 
 // 根据查询条件获取代办事项
 export const getAgentMattersSql = (queryParams) => {
-    if (!queryParams) return;
-    const queryParamsKeys = Object.keys(queryParams);
-    const sqlQuery = [];
-    const sqlText = `SELECT * FROM agent_matters WHERE ${queryParamsKeys.reduce((acc, cur) => {
-        sqlQuery.push(queryParams[cur]);
-        return acc + (acc ? 'AND ' : '') + cur + ' = ?'
-    }, '')}`;
+    let sqlText;
+    let sqlQuery = [];
+    if (!queryParams || JSON.stringify(queryParams) === '{}') {
+        sqlText = `SELECT * FROM agent_matters`;
+    } else {
+        let queryParamsKeys = Object.keys(queryParams);
+
+        const { pageIndex, pageSize } = queryParams;
+
+        if (pageIndex && pageSize) {
+            queryParamsKeys = queryParamsKeys.filter(item => item !== 'pageIndex' && item !== 'pageSize');
+        };
+
+        sqlText = `SELECT * FROM agent_matters ${queryParamsKeys.reduce((acc, cur) => {
+            sqlQuery.push(queryParams[cur]);
+            return acc + (acc ? 'AND ' : 'WHERE ') + cur + ' = ?'
+        }, '')}`;
+
+        if (pageIndex && pageSize) {
+            sqlText += ' LIMIT ? OFFSET ?';
+            sqlQuery = sqlQuery.concat([pageSize, (pageIndex - 1) * pageSize]);
+        }
+    }
+
     return new Promise((resolve, reject) => {
         db.all(sqlText, sqlQuery, (error, result) => {
             if (error) {

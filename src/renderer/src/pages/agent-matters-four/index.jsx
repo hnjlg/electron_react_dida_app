@@ -52,11 +52,11 @@ const AgentMatters = () => {
 
     const AddFormRef = useRef(null);
 
-    useEffect(() => {
-        window.electron.ipcRenderer.on('get-agent-matters-callback', (event, agentMatters) => {
-            setAgentMatters(agentMatters);
-        })
+    window.electron.ipcRenderer.on('get-agent-matters-callback', (event, agentMatters) => {
+        setAgentMatters(agentMatters);
+    });
 
+    useEffect(() => {
         getAgentMatters({
             'four_quadrant_value': fourQuadrantValue
         });
