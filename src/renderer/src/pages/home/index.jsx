@@ -1,4 +1,4 @@
-import { Card, Statistic, Row, Col, Timeline, Space, Badge, Divider } from 'antd';
+import { Card, Statistic, Row, Col, Timeline, Space, Badge, Divider, Button } from 'antd';
 import {
     FileDoneOutlined,
     FileUnknownOutlined,
@@ -16,7 +16,30 @@ const Home = () => {
 
     const [waitDoneNum, setWaitDoneNum] = useState(0);
 
+    const [closeNum, setCloseNum] = useState(0);
+
     const [timelineData, setTimelineData] = useState([]);
+
+    const [isHasMoreLog, setIsHasMoreLog] = useState(true);
+
+    const [operateLogQueryParams, setOperateLogQueryParams] = useState({
+        pageIndex: 1,
+        pageSize: 10
+    });
+
+    const getOperateLog = (queryParams) => window.electron.ipcRenderer.send('get-operate-logs', queryParams);
+
+    const getMore = () => {
+        const newPageIndex = operateLogQueryParams.pageIndex + 1;
+        setOperateLogQueryParams({
+            ...operateLogQueryParams,
+            pageIndex: newPageIndex
+        })
+        getOperateLog({
+            ...operateLogQueryParams,
+            pageIndex: newPageIndex
+        });
+    }
 
     window.electron.ipcRenderer.on('get-agent-matters-callback', (event, agentMatters, options) => {
         switch (options.state) {
@@ -30,15 +53,25 @@ const Home = () => {
                     setWaitDoneNum(agentMatters.length);
                 }
                 break;
+            case AgentMatterState['已关闭']:
+                {
+                    setCloseNum(agentMatters.length);
+                }
+                break;
         }
     });
 
     window.electron.ipcRenderer.on('get-operate-logs-callback', (event, operateLogs) => {
-        setTimelineData(operateLogs.map(item => {
+        if (operateLogs.length === 0) {
+            setIsHasMoreLog(false);
+            return;
+        };
+
+        setTimelineData(timelineData.concat(operateLogs.map(item => {
             return {
                 children: item.description + ' ' + item.create_time
             }
-        }))
+        })));
     })
 
     useEffect(() => {
@@ -52,7 +85,12 @@ const Home = () => {
         }, {
             state: AgentMatterState['待完成']
         });
-        window.electron.ipcRenderer.send('get-operate-logs');
+        window.electron.ipcRenderer.send('get-agent-matters', {
+            state: AgentMatterState['已关闭']
+        }, {
+            state: AgentMatterState['已关闭']
+        });
+        getOperateLog(operateLogQueryParams);
     }, []);
 
 
@@ -65,7 +103,7 @@ const Home = () => {
                 }}
             >
                 <Row gutter={16}>
-                    <Col span={12}>
+                    <Col span={8}>
                         <Badge.Ribbon text="查看详情" style={{ 'cursor': 'pointer' }}>
                             <Card bordered={false}>
                                 <Statistic
@@ -81,7 +119,7 @@ const Home = () => {
                             </Card>
                         </Badge.Ribbon>
                     </Col>
-                    <Col span={12}>
+                    <Col span={8}>
                         <Badge.Ribbon text="查看详情" style={{ 'cursor': 'pointer' }}>
                             <Card bordered={false}>
                                 <Statistic
@@ -96,12 +134,32 @@ const Home = () => {
                             </Card>
                         </Badge.Ribbon>
                     </Col>
+                    <Col span={8}>
+                        <Badge.Ribbon text="查看详情" style={{ 'cursor': 'pointer' }}>
+                            <Card bordered={false}>
+                                <Statistic
+                                    title="已关闭"
+                                    value={closeNum}
+                                    precision={0}
+                                    prefix={<FileDoneOutlined />}
+                                    formatter={formatter}
+                                    suffix="个"
+                                />
+                            </Card>
+                        </Badge.Ribbon>
+                    </Col>
                 </Row>
                 <Divider plain>操作记录</Divider>
                 <Timeline
                     mode="alternate"
                     items={timelineData}
                 />
+                <Divider plain>
+                    {
+                        isHasMoreLog ? <Button type="text" onClick={() => getMore()}>查看更多</Button> :
+                            <span>没有更多了</span>
+                    }
+                </Divider>
             </Space >
         </>
     )

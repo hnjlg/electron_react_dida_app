@@ -23,8 +23,8 @@ export default (ipc) => {
     })
 
     // 查询操作日志
-    ipc.on('get-operate-logs', async (event) => {
-        const result = await getOperateLogSql();
+    ipc.on('get-operate-logs', async (event, queryParams) => {
+        const result = await getOperateLogSql(queryParams);
         event.sender.send('get-operate-logs-callback', result);
     })
 };
