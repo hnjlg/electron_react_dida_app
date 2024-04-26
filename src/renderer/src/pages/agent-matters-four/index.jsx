@@ -1,6 +1,6 @@
 
 import { useEffect, useRef, useState } from 'react';
-import { Flex, Tag, Card, Input, Select, DatePicker, Radio, Typography } from 'antd';
+import { Flex, Tag, Card, Input, Select, DatePicker, Radio, Typography, message } from 'antd';
 import { AlertOutlined, TagsOutlined, LeftOutlined, RightOutlined, PlusOutlined } from '@ant-design/icons';
 import styles from './style.module.scss';
 import { FourQuadrantValues, AgentMatterState } from '@renderer/globalConfig';
@@ -53,6 +53,8 @@ const AgentMatters = () => {
 
     const AddAgentMatterRef = useRef(null);
 
+    const [messageApi, contextHolder] = message.useMessage();
+
     window.electron.ipcRenderer.on('get-agent-matters-callback', (event, agentMatters) => {
         setAgentMatters(agentMatters);
     });
@@ -102,6 +104,14 @@ const AgentMatters = () => {
     };
 
     const titleHandleChange = (item, value) => {
+        console.log(value, 'value');
+        if (value.length > 60) {
+            messageApi.open({
+                type: 'warning',
+                content: '标题不能超过60字',
+            });
+            return;
+        }
         editAgentMatter({
             title: value,
             id: item.id
@@ -160,6 +170,7 @@ const AgentMatters = () => {
 
     return (
         <>
+            {contextHolder}
             <Flex vertical className={styles['agent-matters']}>
                 <Flex align='center' className={styles['emergency-degree']}>
                     <div className={styles['emergency-degree-title']}><TagsOutlined />四象限</div>

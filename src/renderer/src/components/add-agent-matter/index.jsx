@@ -43,6 +43,10 @@ const AddAgentMatter = (props, ref) => {
                         required: true,
                         message: '请输入用户名',
                     },
+                    {
+                        max: 60,
+                        message: '标题不能超过60字'
+                    }
                 ]}
             >
                 <Input />

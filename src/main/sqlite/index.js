@@ -19,7 +19,7 @@ const createTable = (versionResult) => {
         // 事项表
         db.run(`CREATE TABLE IF NOT EXISTS agent_matters (
                     id                          INTEGER PRIMARY KEY AUTOINCREMENT,
-                    title                       VARCHAR (50) NOT NULL,
+                    title                       VARCHAR (150) NOT NULL,
                     four_quadrant_value         VARCHAR (50) NOT NULL,
                     state                       INT DEFAULT 0 NOT NULL,
                     begin_time                  VARCHAR (100) NOT NULL,
