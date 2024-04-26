@@ -93,7 +93,7 @@ const Index = () => {
                 <Flex vertical className={styles['pages-index-left']}>
                     <Flex vertical justify='center' align='center' className={styles['pages-index-header']} onClick={() => logoClick()}>
                         <div className={styles['pages-index-logo']}></div>
-                        <div className={styles['pages-index-logo-text']}>嘀咕待办</div>
+                        <div className={styles['pages-index-logo-text']}>迪达</div>
                     </Flex>
                     <Flex vertical justify='space-between' flex='1'>
                         <Menu

@@ -9,7 +9,7 @@ const About = () => {
     return (
         <>
             <Flex vertical>
-                <Typography.Title level={3}>关于嘀咕待办</Typography.Title>
+                <Typography.Title level={3}>关于迪达待办</Typography.Title>
                 React+Electron开发的跨端桌面端软件，用户日常高效管理任务的一种解决方案
                 <Typography.Title level={4}>注意事项</Typography.Title>
                 <Alert
