@@ -3,12 +3,13 @@ import { useState, useEffect } from 'react';
 import { AgentMatterState } from '@renderer/globalConfig'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { useSearchParams } from 'react-router-dom';
+import { cloneDeep } from 'lodash-es';
 
 const AgentMattersList = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const [stateDefaultValue, setStateDefaultValue] = useState(Number(searchParams.get('state')));
+    const [stateValue, setStateValue] = useState('all');
 
     const [isHasMore, setIsHasMore] = useState(true);
 
@@ -33,7 +34,13 @@ const AgentMattersList = () => {
     });
 
     useEffect(() => {
-        getAgentMatters(queryParams, {
+        let query = cloneDeep(queryParams);
+        const state = searchParams.get('state');
+        if (state !== null) {
+            query.state = state;
+            setStateValue(Number(state));
+        };
+        getAgentMatters(query, {
             type: 'init'
         });
     }, []);
@@ -57,7 +64,7 @@ const AgentMattersList = () => {
                 type: 'init'
             });
         };
-        setStateDefaultValue(value);
+        setStateValue(value);
     };
 
     const getMore = () => {
@@ -66,12 +73,12 @@ const AgentMattersList = () => {
             pageIndex: queryParams.pageIndex + 1
         };
         setQueryParams(newQueryParams);
-        if (stateDefaultValue === 'all') {
+        if (stateValue === 'all') {
             getAgentMatters(newQueryParams);
         } else {
             getAgentMatters({
                 ...newQueryParams,
-                state: stateDefaultValue
+                state: stateValue
             });
         };
     };
@@ -92,7 +99,7 @@ const AgentMattersList = () => {
 
     return (
         <>
-            <Radio.Group defaultValue={stateDefaultValue} buttonStyle="solid" onChange={(e) => stateHandleChange(e.target.value)}>
+            <Radio.Group value={stateValue} buttonStyle="solid" onChange={(e) => stateHandleChange(e.target.value)}>
                 <Radio.Button value="all">全部</Radio.Button>
                 {
                     Object.keys(AgentMatterState).map(key =>

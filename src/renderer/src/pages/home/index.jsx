@@ -125,7 +125,7 @@ const Home = () => {
                             </Card>
                         </Badge.Ribbon>
                     </Col>
-                    <Col span={8} style={{ 'cursor': 'pointer' }} onClick={() => showDetail(AgentMatterState['查看详情'])}>
+                    <Col span={8} style={{ 'cursor': 'pointer' }} onClick={() => showDetail(AgentMatterState['已完成'])}>
                         <Badge.Ribbon text="查看详情" >
                             <Card bordered={false}>
                                 <Statistic
