@@ -16,6 +16,11 @@ const SystemChild = () => {
 const data = [
     {
         key: '1',
+        name: '快捷新增事项',
+        accelerator: 'CTRL+N'
+    },
+    {
+        key: '999',
         name: '彩蛋',
         accelerator: 'CTRL+M'
     },

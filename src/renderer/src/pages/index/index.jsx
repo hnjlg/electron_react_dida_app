@@ -8,7 +8,8 @@ import {
 import { Menu, Flex, Modal, Image } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom'
 import styles from './style.module.scss'
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import AddAgentMatter from '@renderer/components/add-agent-matter';
 
 
 // 菜单数据
@@ -47,6 +48,10 @@ const Index = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const [isAddAgentMatterModalOpen, setIsAddAgentMatterModalOpen] = useState(false);
+
+    const AddAgentMatterRef = useRef(null);
+
     // 点击菜单跳转路由
     const menuClick = (item) => {
         navigate(item.key);
@@ -58,9 +63,29 @@ const Index = () => {
 
     window.electron.ipcRenderer.on('run-ctrl-m-callback', () => {
         setIsModalOpen(true);
-    })
+    });
+
+    window.electron.ipcRenderer.on('run-ctrl-n-callback', () => {
+        setIsAddAgentMatterModalOpen(true);
+    });
 
     // const fileData = window.file.readFile('src/renderer/src/assets/imgs/ctbaobao1.jpg');
+
+    // 新增弹窗关闭回调
+    const handleCancel = () => {
+        setIsAddAgentMatterModalOpen(false);
+        // 重置表单
+        AddAgentMatterRef.current.formRef.current.resetFields();
+    };
+
+    // 新增表单提交
+    const onFinish = (value) => {
+        value.begin_time = value.time[0].format('YYYY/MM/DD hh:mm:ss');
+        value.end_time = value.time[1].format('YYYY/MM/DD hh:mm:ss');
+        delete value.time;
+        window.electron.ipcRenderer.send('add-agent-matter', value);
+        handleCancel();
+    };
 
     return (
         <>
@@ -108,7 +133,10 @@ const Index = () => {
                         src='http://101.132.70.183:10094/ctbaobao5.jpeg'
                     />
                 </Image.PreviewGroup>
-            </Modal >
+            </Modal>
+            <AddAgentMatter ref={AddAgentMatterRef} open={isAddAgentMatterModalOpen} onCancel={handleCancel} formProps={
+                { onFinish }
+            }></AddAgentMatter>
         </>
 
     )

@@ -1,10 +1,11 @@
 
 import { useEffect, useRef, useState } from 'react';
-import { Flex, Tag, Card, Modal, Form, Button, Input, Select, DatePicker, Radio, Typography } from 'antd';
+import { Flex, Tag, Card, Input, Select, DatePicker, Radio, Typography } from 'antd';
 import { AlertOutlined, TagsOutlined, LeftOutlined, RightOutlined, PlusOutlined } from '@ant-design/icons';
 import styles from './style.module.scss';
 import { FourQuadrantValues, AgentMatterState } from '@renderer/globalConfig';
 import dayjs from 'dayjs';
+import AddAgentMatter from '@renderer/components/add-agent-matter';
 
 const { Title } = Typography;
 
@@ -50,7 +51,7 @@ const AgentMatters = () => {
 
     const [fourQuadrantValue, setFourQuadrantValue] = useState(FourQuadrantValues.重要紧急);
 
-    const AddFormRef = useRef(null);
+    const AddAgentMatterRef = useRef(null);
 
     window.electron.ipcRenderer.on('get-agent-matters-callback', (event, agentMatters) => {
         setAgentMatters(agentMatters);
@@ -84,7 +85,8 @@ const AgentMatters = () => {
     // 新增弹窗关闭回调
     const handleCancel = () => {
         setIsModalOpen(false);
-        AddFormRef.current.resetFields();
+        // 重置表单
+        AddAgentMatterRef.current.formRef.current.resetFields();
     };
 
     // 新增表单提交
@@ -234,97 +236,9 @@ const AgentMatters = () => {
                     <RightOutlined />
                 </div>
             </Flex >
-            <Modal title="新增代办事项" open={isModalOpen} onCancel={handleCancel} footer={null}>
-                <Form
-                    ref={AddFormRef}
-                    labelCol={{
-                        span: 8,
-                    }}
-                    wrapperCol={{
-                        span: 16,
-                    }}
-                    style={{
-                        maxWidth: 600,
-                    }}
-                    initialValues={{
-                        remember: true,
-                    }}
-                    onFinish={onFinish}
-                    autoComplete="off"
-                >
-                    <Form.Item
-                        label="标题"
-                        name="title"
-                        rules={[
-                            {
-                                required: true,
-                                message: '请输入用户名',
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-
-                    <Form.Item
-                        label="周期"
-                        name="time"
-                        rules={[
-                            {
-                                required: true,
-                                message: '请选择周期',
-                            },
-                        ]}
-                    >
-                        <DatePicker.RangePicker showTime />
-                    </Form.Item>
-
-                    <Form.Item
-                        label="程度"
-                        name="four_quadrant_value"
-                        rules={[
-                            {
-                                required: true,
-                                message: '请选择程度',
-                            },
-                        ]}
-                    >
-                        <Radio.Group>
-                            {
-                                Object.keys(FourQuadrantValues).map(key => <Radio key={key} value={FourQuadrantValues[key]}>{key}</Radio>)
-                            }
-                        </Radio.Group>
-                    </Form.Item>
-
-                    <Form.Item
-                        label="描述"
-                        name="description"
-                        rules={[
-                            {
-                                required: true,
-                                message: '请填写描述',
-                            },
-                        ]}
-                    >
-                        <Input.TextArea
-                            autoSize={{
-                                minRows: 4,
-                                maxRows: 8,
-                            }}
-                        />
-                    </Form.Item>
-
-                    <Form.Item
-                        wrapperCol={{
-                            offset: 8,
-                            span: 16,
-                        }}
-                    >
-                        <Button type="primary" htmlType="submit">
-                            确认
-                        </Button>
-                    </Form.Item>
-                </Form>
-            </Modal>
+            <AddAgentMatter ref={AddAgentMatterRef} open={isModalOpen} onCancel={handleCancel} formProps={
+                { onFinish }
+            }></AddAgentMatter>
         </>
     )
 }

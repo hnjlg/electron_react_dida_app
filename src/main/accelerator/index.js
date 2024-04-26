@@ -15,5 +15,16 @@ export default (ipc) => {
         }]
     }));
 
+    menu.append(new MenuItem({
+        label: 'Electron',
+        submenu: [{
+            role: 'help',
+            accelerator: 'CTRL+N',
+            click: () => {
+                BrowserWindow.getFocusedWindow().webContents.send('run-ctrl-n-callback');
+            }
+        }]
+    }));
+
     Menu.setApplicationMenu(menu);
 };
