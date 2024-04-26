@@ -44,7 +44,6 @@ const Home = () => {
     };
 
     const showDetail = (state) => {
-        console.log(state);
         navigate(`/index/agent-matters-list?state=${state}`);
     };
 
@@ -78,7 +77,7 @@ const Home = () => {
                 children: item.description + ' ' + item.create_time
             }
         })));
-    })
+    });
 
     useEffect(() => {
         window.electron.ipcRenderer.send('get-agent-matters', {

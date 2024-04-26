@@ -1,4 +1,4 @@
-import { getOperateLogSql } from '../../sqlite/sql/operate-log';
+import { getOperateLogSql, addOperateLogSql } from '../../sqlite/sql/operate-log';
 import { getSettingSql, editSettingSql } from '../../sqlite/sql/setting';
 import agentMatterIpcInit from './agent-matter/index';
 
@@ -14,6 +14,11 @@ export default (ipc) => {
     ipc.on('get-operate-logs', async (event, queryParams) => {
         const result = await getOperateLogSql(queryParams);
         event.sender.send('get-operate-logs-callback', result);
+    });
+
+    // 插入操作日志
+    ipc.on('add-operate-logs', (event, operateLog) => {
+        addOperateLogSql(operateLog);
     });
 
     // 查询系统setting

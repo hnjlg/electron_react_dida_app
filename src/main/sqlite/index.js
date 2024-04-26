@@ -31,7 +31,7 @@ const createTable = (versionResult) => {
         // 操作记录表
         db.run(`CREATE TABLE IF NOT EXISTS operate_log  (
                 id                          INTEGER PRIMARY KEY AUTOINCREMENT,
-                create_time                 VARCHAR (100) NOT NULL,
+                create_time                 TIMESTAMP default (datetime('now', 'localtime')),
                 description                 TEXT NOT NULL
             );`
         );

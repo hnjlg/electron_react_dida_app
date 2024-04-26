@@ -24,3 +24,27 @@ export const getOperateLogSql = (queryParams = {}) => {
         });
     });
 };
+
+// 插入操作日志
+export const addOperateLogSql = (operateLog) => {
+    if (!operateLog) return;
+    const operateLogKeys = Object.keys(operateLog);
+    const sqlQuery = [];
+    const sqlText = `INSERT INTO operate_log (${operateLogKeys.join(',')}) VALUES (${operateLogKeys.reduce((acc, cur) => {
+        sqlQuery.push(operateLog[cur]);
+        return acc + (acc ? ',' : '') + '?'
+    }, '')
+        })`;
+
+    console.log(sqlText, sqlQuery);
+
+    return new Promise((resolve, reject) => {
+        db.run(sqlText, sqlQuery, (error, result) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+}

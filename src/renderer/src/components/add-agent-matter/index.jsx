@@ -1,5 +1,5 @@
 
-import { Modal, Form, Button, Radio, Input, DatePicker } from 'antd';
+import { Modal, Form, Button, Radio, Input, DatePicker, Descriptions } from 'antd';
 import { forwardRef, useImperativeHandle, useRef } from 'react';
 import { FourQuadrantValues } from '@renderer/globalConfig';
 
@@ -28,6 +28,12 @@ const AddAgentMatter = (props, ref) => {
             }}
             autoComplete="off"
             {...props.formProps}
+            onFinish={(value) => {
+                props.formProps.onFinish(value);
+                window.electron.ipcRenderer.send('add-operate-logs', {
+                    description: `新增一条待办事项：标题为${value.title}`
+                })
+            }}
         >
             <Form.Item
                 label="标题"
