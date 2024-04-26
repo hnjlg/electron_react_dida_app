@@ -13,30 +13,31 @@ const SystemChild = () => {
     )
 };
 
-const ShortcutKeyChild = () => {
-    const data = [
-        {
-            key: '1',
-            name: '彩蛋',
-            accelerator: 'CTRL+M'
-        },
-    ];
+const data = [
+    {
+        key: '1',
+        name: '彩蛋',
+        accelerator: 'CTRL+M'
+    },
+];
 
-    const columns = [
-        {
-            title: '功能说明',
-            dataIndex: 'name',
-            key: 'name',
-        },
-        {
-            title: '快捷键',
-            dataIndex: 'accelerator',
-            key: 'accelerator',
-        },
-    ]
+const columns = [
+    {
+        title: '功能说明',
+        dataIndex: 'name',
+        key: 'name',
+    },
+    {
+        title: '快捷键',
+        dataIndex: 'accelerator',
+        key: 'accelerator',
+    },
+];
+
+const ShortcutKeyChild = () => {
 
     return (
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={data} pagination={{ position: ['none'] }} />
     )
 };
 

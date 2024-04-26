@@ -178,6 +178,10 @@ const AgentMatters = () => {
                     </Flex>
                 </Flex>
                 <Flex gap='10px' wrap='wrap' className={styles['emergency-degree-list']}>
+                    <div className={styles['add-emergency-degree']} onClick={showModal}>
+                        <PlusOutlined />
+                        新增代办
+                    </div>
                     {
                         agentMatters.map(item =>
                             <Card
@@ -222,10 +226,6 @@ const AgentMatters = () => {
                             </Card>
                         )
                     }
-                    <div className={styles['add-emergency-degree']} onClick={showModal}>
-                        <PlusOutlined />
-                        新增代办
-                    </div>
                 </Flex>
                 <div className={styles['emergency-degree-list-left']} onClick={() => handleScroll(-1)}>
                     <LeftOutlined />

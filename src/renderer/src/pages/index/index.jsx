@@ -91,11 +91,10 @@ const Index = () => {
                     <Outlet />
                 </div>
             </Flex>
-            <Modal title="彩蛋" open={isModalOpen} onOk={() => setIsModalOpen(false)} onCancel={() => {
+            <Modal title="彩蛋" open={isModalOpen} footer={null} onCancel={() => {
                 setIsModalOpen(false);
             }}>
                 <Image.PreviewGroup
-
                     items={[
                         'http://101.132.70.183:10094/ctbaobao1.jpg',
                         'http://101.132.70.183:10094/ctbaobao2.jpg',
