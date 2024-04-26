@@ -117,7 +117,7 @@ const AgentMattersList = () => {
                                 cursor: 'pointer',
                                 color: item.state === AgentMatterState['已完成'] ? '#6BCD39' : ''
                             }} />}
-                            title={<Flex justify='space-between'><span>item.title</span><CloseOutlined onClick={() => changeStateHandleIcon(item, '已关闭')} style={{
+                            title={<Flex justify='space-between'><span>{item.title}</span><CloseOutlined onClick={() => changeStateHandleIcon(item, '已关闭')} style={{
                                 cursor: 'pointer',
                                 color: item.state === AgentMatterState['已关闭'] ? '#FF4D4F' : ''
                             }} /></Flex>}

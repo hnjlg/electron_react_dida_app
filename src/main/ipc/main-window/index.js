@@ -1,4 +1,5 @@
 import { getOperateLogSql } from '../../sqlite/sql/operate-log';
+import { getSettingSql, editSettingSql } from '../../sqlite/sql/setting';
 import agentMatterIpcInit from './agent-matter/index';
 
 /* 
@@ -15,4 +16,14 @@ export default (ipc) => {
         event.sender.send('get-operate-logs-callback', result);
     });
 
+    // 查询系统setting
+    ipc.on('get-setting', async (event) => {
+        const result = await getSettingSql();
+        event.sender.send('get-setting-callback', result);
+    });
+
+    // 编辑系统setting
+    ipc.on('edit-setting', async (event, settingValue) => {
+        await editSettingSql(settingValue);
+    });
 };

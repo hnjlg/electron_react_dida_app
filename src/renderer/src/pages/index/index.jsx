@@ -5,10 +5,10 @@ import {
     OrderedListOutlined,
     SettingOutlined
 } from '@ant-design/icons';
-import { Menu, Flex, Modal, Image } from 'antd';
+import { Menu, Flex, Modal, Image, ConfigProvider } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom'
 import styles from './style.module.scss'
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import AddAgentMatter from '@renderer/components/add-agent-matter';
 
 
@@ -50,6 +50,8 @@ const Index = () => {
 
     const [isAddAgentMatterModalOpen, setIsAddAgentMatterModalOpen] = useState(false);
 
+    const [configOption, setConfigOption] = useState({});
+
     const AddAgentMatterRef = useRef(null);
 
     // 点击菜单跳转路由
@@ -61,6 +63,12 @@ const Index = () => {
         navigate('/index/home');
     };
 
+    window.electron.ipcRenderer.on('get-setting-callback', (event, settingValue) => {
+        setConfigOption({
+            componentSize: settingValue.component_size
+        })
+    });
+
     window.electron.ipcRenderer.on('run-ctrl-m-callback', () => {
         setIsModalOpen(true);
     });
@@ -68,6 +76,10 @@ const Index = () => {
     window.electron.ipcRenderer.on('run-ctrl-n-callback', () => {
         setIsAddAgentMatterModalOpen(true);
     });
+
+    useEffect(() => {
+        window.electron.ipcRenderer.send('get-setting');
+    }, []);
 
     // const fileData = window.file.readFile('src/renderer/src/assets/imgs/ctbaobao1.jpg');
 
@@ -88,7 +100,7 @@ const Index = () => {
     };
 
     return (
-        <>
+        <ConfigProvider componentSize={configOption.componentSize}>
             <Flex className={styles['pages-index']}>
                 <Flex vertical className={styles['pages-index-left']}>
                     <Flex vertical justify='center' align='center' className={styles['pages-index-header']} onClick={() => logoClick()}>
@@ -137,8 +149,7 @@ const Index = () => {
             <AddAgentMatter ref={AddAgentMatterRef} open={isAddAgentMatterModalOpen} onCancel={handleCancel} formProps={
                 { onFinish }
             }></AddAgentMatter>
-        </>
-
+        </ConfigProvider>
     )
 }
 

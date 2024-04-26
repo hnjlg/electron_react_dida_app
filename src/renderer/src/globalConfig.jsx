@@ -3,19 +3,27 @@ const FourQuadrantValues = {
     不重要紧急: 'not-important-urgency',
     重要不紧急: 'important-not-urgency',
     不重要不紧急: 'not-important-not-urgency'
-}
+};
 
 const AgentMatterState = {
     待完成: 0,
     已关闭: 1,
     已完成: 2
-}
+};
+
+const ComponentSize = {
+    小: 'small',
+    中: 'middle',
+    大: 'large'
+};
 
 // 冻结对象不让修改
 Object.freeze(FourQuadrantValues);
 Object.freeze(AgentMatterState);
+Object.freeze(ComponentSize);
 
 export {
     FourQuadrantValues,
-    AgentMatterState
+    AgentMatterState,
+    ComponentSize
 }

@@ -14,7 +14,7 @@ const updateTable = () => {
 };
 
 
-const createTable = () => {
+const createTable = (versionResult) => {
     db.serialize(() => {
         // 事项表
         db.run(`CREATE TABLE IF NOT EXISTS agent_matters (
@@ -34,7 +34,17 @@ const createTable = () => {
                 create_time                 VARCHAR (100) NOT NULL,
                 description                 TEXT NOT NULL
             );`
-        )
+        );
+
+        // 设置表
+        db.run(`CREATE TABLE IF NOT EXISTS setting  (
+            id                          INTEGER PRIMARY KEY AUTOINCREMENT,
+            component_size              VARCHAR (50) NOT NULL
+        );`, [], () => {
+            if (!versionResult) {
+                db.run(`INSERT INTO setting (component_size) VALUES (?)`, ['small'])
+            }
+        })
     });
 }
 
@@ -53,12 +63,12 @@ export default () => {
             primary key (version));`,
         [],
         () => {
-            db.get('SELECT * FROM sql_info ORDER BY version DESC LIMIT 1', [], (_error, result) => {
-                if (!result || (result && result.version !== dbVersion)) {
+            db.get('SELECT * FROM sql_info ORDER BY version DESC LIMIT 1', [], (_error, versionResult) => {
+                createTable(versionResult);
+                if (!versionResult || (versionResult && versionResult.version !== dbVersion)) {
                     updateTable();
                     db.run('INSERT INTO sql_info (version) VALUES (?)', [dbVersion], () => { });
                 }
-                createTable();
             });
         }
     );

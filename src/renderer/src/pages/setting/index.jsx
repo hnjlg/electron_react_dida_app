@@ -1,9 +1,43 @@
-import { Tabs, Typography, Table } from 'antd';
+import { Tabs, Typography, Table, Radio, Tag } from 'antd';
 import { AppstoreOutlined, DesktopOutlined, InsertRowBelowOutlined, EllipsisOutlined } from '@ant-design/icons';
+import { useState, useEffect } from 'react';
+import styles from './style.module.scss';
+import { ComponentSize } from '@renderer/globalConfig';
+
+const { Title } = Typography;
 
 const ConventionalChild = () => {
+    const [settingConfig, setSettingConfig] = useState({
+        component_size: ComponentSize['小']
+    });
+
+    const onComponentSizeChange = (e) => {
+        window.electron.ipcRenderer.send('edit-setting', {
+            id: settingConfig.id,
+            component_size: e.target.value,
+        });
+        getComponentSize();
+    };
+
+    window.electron.ipcRenderer.on('get-setting-callback', (event, settingValue) => {
+        setSettingConfig(settingValue);
+    });
+
+    const getComponentSize = () => window.electron.ipcRenderer.send('get-setting');
+
+    useEffect(() => {
+        getComponentSize();
+    }, []);
+
     return (
-        <>ConventionalChild</>
+        <>
+            <Title level={5}>布局</Title>
+            <Radio.Group onChange={onComponentSizeChange} value={settingConfig.component_size}>
+                <Radio value={ComponentSize['小']}><div className={styles['compact-layout']}><Tag color={settingConfig.component_size === ComponentSize['小'] ? '#108ee9' : ''}>紧凑</Tag></div></Radio>
+                <Radio value={ComponentSize['中']}><div className={styles['appropriate-layout']}><Tag color={settingConfig.component_size === ComponentSize['中'] ? '#108ee9' : ''}>适中</Tag></div></Radio>
+                <Radio value={ComponentSize['大']}><div className={styles['loose-layout']}><Tag color={settingConfig.component_size === ComponentSize['大'] ? '#108ee9' : ''}>宽松</Tag></div></Radio>
+            </Radio.Group>
+        </>
     )
 };
 
@@ -83,7 +117,7 @@ const Setting = () => {
 
     return (
         <>
-            <Typography.Title level={2}>设置</Typography.Title >
+            <Title level={2}>设置</Title >
             <Tabs
                 defaultActiveKey="conventional"
                 items={tabOptions}
