@@ -9,19 +9,50 @@ import {
     CloseOutlined,
     SkinOutlined
 } from '@ant-design/icons';
-import { Menu, Flex, Modal, Image, ConfigProvider, Space, Divider } from 'antd';
+import { Menu, Flex, Modal, Image, ConfigProvider, Space, Divider, Button, Radio } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom'
 import styles from './style.module.scss'
 import { useState, useRef, useEffect } from 'react';
 import AddAgentMatter from '@renderer/components/add-agent-matter';
+import { CloseSystemType } from '@renderer/globalConfig'
 
 const Header = () => {
+
+    const [settingConfig, setSettingConfig] = useState({});
+
+    const [isRemember, setIsRemember] = useState(false);
+
+    window.electron.ipcRenderer.on('get-setting-callback', (event, settingValue) => {
+        setSettingConfig(settingValue);
+    });
+
+    const getSetting = () => window.electron.ipcRenderer.send('get-setting');
+
+    const windowMin = () => {
+        setIsModalOpen(false);
+        setTimeout(() => {
+            window.electron.ipcRenderer.send('window-min');
+        }, 200)
+    };
+
+    const winClose = () => window.electron.ipcRenderer.send('window-close');
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const closeWindow = () => {
-        setIsModalOpen(true);
-    }
+        switch (settingConfig.close_system_type) {
+            case CloseSystemType['系统提示']:
+                return setIsModalOpen(true);
+            case CloseSystemType['最小化到系统托盘']:
+                return windowMin();
+            case CloseSystemType['退出系统']:
+                return winClose();
+        }
+    };
+
+    useEffect(() => {
+        getSetting();
+    }, [])
 
     return (
         <>
@@ -30,15 +61,42 @@ const Header = () => {
                 <Space>
                     <SkinOutlined style={{ cursor: 'pointer' }} />
                     <Divider type="vertical" style={{ borderInlineStart: '1px solid #000' }} />
-                    <LineOutlined style={{ cursor: 'pointer' }} onClick={() => window.electron.ipcRenderer.send('window-min')} />
+                    <LineOutlined style={{ cursor: 'pointer' }} onClick={() => windowMin()} />
                     <FullscreenOutlined style={{ cursor: 'pointer' }} onClick={() => window.electron.ipcRenderer.send('window-max')} />
                     <CloseOutlined style={{ cursor: 'pointer' }} onClick={() => closeWindow()} />
                 </Space>
             </Flex>
 
-            <Modal title="提示" open={isModalOpen} onOk={() => window.electron.ipcRenderer.send('window-close')} onCancel={() => setIsModalOpen(false)}>
-                是否确认退出系统？
-            </Modal>
+            <Modal title="提示" open={isModalOpen} onCancel={() => setIsModalOpen(false)} footer={[
+                <Button key='windowMin' onClick={() => {
+                    if (isRemember) {
+                        window.electron.ipcRenderer.send('edit-setting', {
+                            id: settingConfig.id,
+                            close_system_type: CloseSystemType['最小化到系统托盘'],
+                        });
+                        getSetting();
+                    };
+                    windowMin();
+                }}>
+                    最小化到系统托盘
+                </Button>,
+                <Button key='winClose' type="primary" onClick={() => {
+                    if (isRemember) {
+                        window.electron.ipcRenderer.send('edit-setting', {
+                            id: settingConfig.id,
+                            close_system_type: CloseSystemType['退出系统'],
+                        });
+                        getSetting();
+                    };
+                    winClose();
+                }}>
+                    退出系统
+                </Button >
+            ]}>
+                <Radio checked={isRemember} onClick={() => {
+                    setIsRemember(!isRemember);
+                }}>记住选择，下次不再提示</Radio>
+            </Modal >
         </>
     )
 }
@@ -135,7 +193,7 @@ const Index = () => {
             <Header></Header>
             <Flex className={styles['pages-index']}>
                 <Flex vertical className={styles['pages-index-left']}>
-                    <Flex vertical justify='center' align='center' className={styles['pages-index-header']} onClick={() => logoClick()}>
+                    <Flex vertical justify='center' align='center' className={styles['pages-index-left-header']} onClick={() => logoClick()}>
                         <div className={styles['pages-index-logo']}></div>
                         <div className={styles['pages-index-logo-text']}>迪达</div>
                     </Flex>

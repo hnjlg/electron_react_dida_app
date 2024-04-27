@@ -17,13 +17,27 @@ const ComponentSize = {
     大: 'large'
 };
 
+const CloseSystemType = {
+    系统提示: 'default',
+    最小化到系统托盘: 'minimize',
+    退出系统: 'out'
+}
+
+const exportArr = [
+    FourQuadrantValues,
+    AgentMatterState,
+    ComponentSize,
+    CloseSystemType
+];
+
 // 冻结对象不让修改
-Object.freeze(FourQuadrantValues);
-Object.freeze(AgentMatterState);
-Object.freeze(ComponentSize);
+exportArr.forEach(item => {
+    Object.freeze(item);
+});
 
 export {
     FourQuadrantValues,
     AgentMatterState,
-    ComponentSize
+    ComponentSize,
+    CloseSystemType
 }

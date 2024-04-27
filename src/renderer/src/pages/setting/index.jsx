@@ -2,7 +2,7 @@ import { Tabs, Typography, Table, Radio, Tag } from 'antd';
 import { AppstoreOutlined, DesktopOutlined, InsertRowBelowOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { useState, useEffect } from 'react';
 import styles from './style.module.scss';
-import { ComponentSize } from '@renderer/globalConfig';
+import { ComponentSize, CloseSystemType } from '@renderer/globalConfig';
 
 const { Title } = Typography;
 
@@ -16,17 +16,17 @@ const ConventionalChild = () => {
             id: settingConfig.id,
             component_size: e.target.value,
         });
-        getComponentSize();
+        getSetting();
     };
 
     window.electron.ipcRenderer.on('get-setting-callback', (event, settingValue) => {
         setSettingConfig(settingValue);
     });
 
-    const getComponentSize = () => window.electron.ipcRenderer.send('get-setting');
+    const getSetting = () => window.electron.ipcRenderer.send('get-setting');
 
     useEffect(() => {
-        getComponentSize();
+        getSetting();
     }, []);
 
     return (
@@ -42,8 +42,39 @@ const ConventionalChild = () => {
 };
 
 const SystemChild = () => {
+
+    const [settingConfig, setSettingConfig] = useState({
+        close_system_type: CloseSystemType['系统提示']
+    });
+
+    window.electron.ipcRenderer.on('get-setting-callback', (event, settingValue) => {
+        setSettingConfig(settingValue);
+    });
+
+    const getSetting = () => window.electron.ipcRenderer.send('get-setting');
+
+    useEffect(() => {
+        getSetting();
+    }, [])
+
+
+    const onCloseSystemTypeChange = (value) => {
+        window.electron.ipcRenderer.send('edit-setting', {
+            id: settingConfig.id,
+            close_system_type: value,
+        });
+        getSetting();
+    };
+
     return (
-        <>SystemChild</>
+        <>
+            <Title level={5}>关闭主面板</Title>
+            <Radio.Group onChange={(e) => onCloseSystemTypeChange(e.target.value)} value={settingConfig.close_system_type}>
+                {
+                    Object.keys(CloseSystemType).map(item => <Radio key={item} value={CloseSystemType[item]}>{item}</Radio>)
+                }
+            </Radio.Group>
+        </>
     )
 };
 

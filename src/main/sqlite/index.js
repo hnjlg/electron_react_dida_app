@@ -39,10 +39,11 @@ const createTable = (versionResult) => {
         // 设置表
         db.run(`CREATE TABLE IF NOT EXISTS setting  (
             id                          INTEGER PRIMARY KEY AUTOINCREMENT,
-            component_size              VARCHAR (50) NOT NULL
+            component_size              VARCHAR (50) NOT NULL,
+            close_system_type           VARCHAR (50) NOT NULL
         );`, [], () => {
             if (!versionResult) {
-                db.run(`INSERT INTO setting (component_size) VALUES (?)`, ['small'])
+                db.run(`INSERT INTO setting (component_size, close_system_type) VALUES (?, ?)`, ['small', 'default'])
             }
         })
     });
