@@ -13,7 +13,7 @@ export default (mainWindow) => {
     //登录窗口最大/小化
     ipc.on('window-max', () => {
         if (mainWindow.isMaximized()) {
-            mainWindow.restore();
+            mainWindow.unmaximize();
         } else {
             mainWindow.maximize();
         }
