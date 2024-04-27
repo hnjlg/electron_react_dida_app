@@ -20,6 +20,7 @@ function createWindow() {
     autoHideMenuBar: true, // 设置为true来隐藏默认菜单栏
     frame: false   /*去掉顶部导航  去掉关闭按钮  最大化最小化按钮*/,
     ...(process.platform === 'linux' ? { icon } : {}),
+    transparent: true,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false,
