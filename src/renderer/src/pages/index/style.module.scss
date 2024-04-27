@@ -1,5 +1,19 @@
+$pages-index-header-height: 30px;
+$pages-index-header-padding: 10px;
+
+.pages-index-header {
+    padding: $pages-index-header-padding;
+    height: $pages-index-header-height;
+
+    .pages-index-header-drag {
+        // 设置对应类名，使窗口可以拖动
+        -webkit-app-region: drag;
+        flex: 1;
+    }
+}
+
 .pages-index {
-    height: 100vh;
+    height: calc(100vh - $pages-index-header-height - 2 * $pages-index-header-padding);
 
     .pages-index-left {
         height: 100%;

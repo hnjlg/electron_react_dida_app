@@ -1,14 +1,21 @@
 import { getOperateLogSql, addOperateLogSql } from '../../sqlite/sql/operate-log';
 import { getSettingSql, editSettingSql } from '../../sqlite/sql/setting';
 import agentMatterIpcInit from './agent-matter/index';
+import windowIpcInit from './window/index';
 
 /* 
     主窗口所有ipc
 */
 
-export default (ipc) => {
+export default (mainWindow) => {
+
+    const ipc = mainWindow.webContents.ipc;
+
     // 事项ipc
     agentMatterIpcInit(ipc);
+
+    // 窗口ipc
+    windowIpcInit(mainWindow);
 
     // 查询操作日志
     ipc.on('get-operate-logs', async (event, queryParams) => {
@@ -31,4 +38,7 @@ export default (ipc) => {
     ipc.on('edit-setting', async (event, settingValue) => {
         await editSettingSql(settingValue);
     });
+
+
+
 };

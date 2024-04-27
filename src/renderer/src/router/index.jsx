@@ -38,17 +38,14 @@ export const globalRouters = createHashRouter([
                 element: <Setting />
             },
             {
+                path: '404',
+                element: <NotFound />,
+            },
+            {
                 path: '*',
-                element: <Navigate to="/index/home" />,
+                element: <NotFound />,
             },
         ]
     },
-    {
-        path: '/404',
-        element: <NotFound />,
-    },
-    {
-        path: '*',
-        element: <Navigate to="/404" />,
-    },
+
 ])

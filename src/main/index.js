@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, session } from 'electron'
+import { app, shell, BrowserWindow, Menu } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -18,6 +18,7 @@ function createWindow() {
       如果菜单栏已经可见，将该属性设置为 true 将不会使其立刻隐藏。
     */
     autoHideMenuBar: true, // 设置为true来隐藏默认菜单栏
+    frame: false   /*去掉顶部导航  去掉关闭按钮  最大化最小化按钮*/,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
@@ -56,7 +57,7 @@ function createWindow() {
   /* 
     mainWindow窗口ipc注册
   */
-  mainWindowIpcInit(mainWindow.webContents.ipc);
+  mainWindowIpcInit(mainWindow);
 
   /* 
     数据库初始化
@@ -68,9 +69,11 @@ function createWindow() {
     注册快捷键
   */
   acceleratorInit(mainWindow.webContents.ipc);
+
 };
 
-
+// 不需要默认菜单，将默认菜单清除
+Menu.setApplicationMenu(null);
 
 /* 
   当Electron 初始化完成。 可用作检查 app.isReady() 的方便选择，假如应用程序尚未就绪，则订阅ready事件。
