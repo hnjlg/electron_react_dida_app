@@ -15,7 +15,7 @@ $pages-index-header-padding: 10px;
 }
 
 .pages-index {
-    height: calc(100vh - $pages-index-header-height - 2 * $pages-index-header-padding);
+    height: calc(100vh - $pages-index-header-height - 2 * $pages-index-header-padding - 2px);
     border: 1px solid #bfbfbf;
     border-top: none;
     border-radius: 0 0 $system-border-radius-size $system-border-radius-size;

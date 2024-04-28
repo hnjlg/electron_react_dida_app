@@ -7,7 +7,8 @@ import {
     LineOutlined,
     FullscreenOutlined,
     CloseOutlined,
-    SkinOutlined
+    SkinOutlined,
+    HourglassOutlined
 } from '@ant-design/icons';
 import { Menu, Flex, Modal, Image, ConfigProvider, Space, Divider, Button, Radio } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -113,6 +114,11 @@ const topMenus = [
         key: '/index/agent-matters-list',
         icon: <OrderedListOutlined />,
         label: '代办事项列表',
+    },
+    {
+        key: '/index/clock',
+        icon: <HourglassOutlined />,
+        label: '时钟',
     },
 ];
 

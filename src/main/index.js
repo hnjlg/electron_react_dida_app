@@ -6,7 +6,6 @@ import mainWindowIpcInit from './ipc/main-window/index'
 import sqliteInit from './sqlite/index';
 import acceleratorInit from './accelerator';
 
-
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -28,6 +27,14 @@ function createWindow() {
       sandbox: false,
       nodeIntegration: true,
     }
+  });
+
+  /* 
+    窗口聚焦
+  */
+  mainWindow.on('focus', () => {
+    // 关闭任务栏窗口闪烁
+    mainWindow.flashFrame(false);
   });
 
   /* 

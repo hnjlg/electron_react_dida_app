@@ -6,6 +6,7 @@ import Home from '@renderer/pages/home';
 import AgentMattersFour from '@renderer/pages/agent-matters-four';
 import AgentMattersList from '@renderer/pages/agent-matters-list';
 import Setting from '@renderer/pages/setting';
+import Clock from '@renderer/pages/clock';
 
 // 全局路由
 export const globalRouters = createHashRouter([
@@ -36,6 +37,10 @@ export const globalRouters = createHashRouter([
             {
                 path: 'setting',
                 element: <Setting />
+            },
+            {
+                path: 'clock',
+                element: <Clock />
             },
             {
                 path: '404',
