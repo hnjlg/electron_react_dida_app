@@ -6,6 +6,8 @@ $pages-index-header-padding: 10px;
     height: $pages-index-header-height;
     border-radius: $system-border-radius-size $system-border-radius-size 0 0;
     background-color: #fff;
+    border: 1px solid #bfbfbf;
+    border-bottom: none;
 
     .pages-index-header-drag {
         // 设置对应类名，使窗口可以拖动
