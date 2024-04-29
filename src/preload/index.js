@@ -1,7 +1,6 @@
 import { contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import fs from 'fs';
-import path from 'path';
 
 /* 
   判断是否启用了上下文隔离

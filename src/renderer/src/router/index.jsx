@@ -7,6 +7,7 @@ import AgentMattersFour from '@renderer/pages/agent-matters-four';
 import AgentMattersList from '@renderer/pages/agent-matters-list';
 import Setting from '@renderer/pages/setting';
 import Clock from '@renderer/pages/clock';
+import WorkBench from '@renderer/pages/work-bench';
 
 // 全局路由
 export const globalRouters = createHashRouter([
@@ -41,6 +42,10 @@ export const globalRouters = createHashRouter([
             {
                 path: 'clock',
                 element: <Clock />
+            },
+            {
+                path: 'work-bench',
+                element: <WorkBench />
             },
             {
                 path: '404',

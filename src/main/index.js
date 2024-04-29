@@ -10,8 +10,6 @@ function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 900,
-    minWidth: 650,
-    minHeight: 500,
     height: 650,
     show: false,
     /* 
@@ -28,6 +26,12 @@ function createWindow() {
       nodeIntegration: true,
     }
   });
+
+  /* 
+      设置窗口最小宽高
+  */
+  mainWindow.setMinimumSize(650, 500);
+
 
   /* 
     窗口聚焦

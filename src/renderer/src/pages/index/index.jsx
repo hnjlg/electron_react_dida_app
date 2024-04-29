@@ -8,7 +8,8 @@ import {
     FullscreenOutlined,
     CloseOutlined,
     SkinOutlined,
-    HourglassOutlined
+    HourglassOutlined,
+    AppstoreOutlined
 } from '@ant-design/icons';
 import { Menu, Flex, Modal, Image, ConfigProvider, Space, Divider, Button, Radio } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -121,6 +122,11 @@ const topMenus = [
         key: '/index/clock',
         icon: <HourglassOutlined />,
         label: '时钟',
+    },
+    {
+        key: '/index/work-bench',
+        icon: <AppstoreOutlined />,
+        label: '工作台',
     },
 ];
 
