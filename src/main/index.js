@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, Menu } from 'electron'
+import { app, shell, BrowserWindow, Menu, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -124,4 +124,13 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
+});
+
+
+/* 
+  捕获系统运行错误，另开窗口提示
+*/
+
+process.on('uncaughtException', (err) => {
+  dialog.showErrorBox('未捕获的错误', err.message);
 });

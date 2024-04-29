@@ -104,7 +104,6 @@ const AgentMatters = () => {
     };
 
     const titleHandleChange = (item, value) => {
-        console.log(value, 'value');
         if (value.length > 60) {
             messageApi.open({
                 type: 'warning',

@@ -12,7 +12,7 @@ export const getOperateLogSql = (queryParams = {}) => {
     if (pageIndex && pageSize) {
         sqlText += ' LIMIT ? OFFSET ?';
         sqlQuery = sqlQuery.concat([pageSize, (pageIndex - 1) * pageSize]);
-    }
+    };
 
     return new Promise((resolve, reject) => {
         db.all(sqlText, sqlQuery, (error, result) => {
@@ -35,8 +35,6 @@ export const addOperateLogSql = (operateLog) => {
         return acc + (acc ? ',' : '') + '?'
     }, '')
         })`;
-
-    console.log(sqlText, sqlQuery);
 
     return new Promise((resolve, reject) => {
         db.run(sqlText, sqlQuery, (error, result) => {
