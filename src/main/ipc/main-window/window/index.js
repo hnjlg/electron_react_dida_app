@@ -1,4 +1,4 @@
-import { screen, BrowserWindow } from 'electron';
+import { screen, BrowserWindow, shell } from 'electron';
 import path from 'path';
 
 export default (mainWindow) => {
