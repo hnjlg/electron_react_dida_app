@@ -45,7 +45,15 @@ const createTable = (versionResult) => {
             if (!versionResult) {
                 db.run(`INSERT INTO setting (component_size, close_system_type) VALUES (?, ?)`, ['small', 'default'])
             }
-        })
+        });
+
+        // 专注计划表
+        db.run(`CREATE TABLE IF NOT EXISTS focus_plan  (
+            id                          INTEGER PRIMARY KEY AUTOINCREMENT,
+            title                       VARCHAR (50) NOT NULL,
+            time                        VARCHAR (50) NOT NULL,
+            count                       VARCHAR (50) NOT NULL default 0
+        );`);
     });
 }
 

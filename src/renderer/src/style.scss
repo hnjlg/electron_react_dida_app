@@ -1,3 +1,23 @@
 .ant-modal-mask {
     border-radius: $system-border-radius-size;
 }
+
+.ant-drawer {
+    border-radius: $system-border-radius-size;
+
+    .ant-drawer-content-wrapper {
+        border-radius: $system-border-radius-size;
+
+        .ant-drawer-content {
+            border-radius: $system-border-radius-size;
+
+            .ant-drawer-body {
+                border-radius: $system-border-radius-size;
+            }
+        }
+    }
+
+    .ant-drawer-mask {
+        border-radius: $system-border-radius-size;
+    }
+}

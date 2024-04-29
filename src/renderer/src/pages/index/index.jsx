@@ -60,11 +60,13 @@ const Header = () => {
             <Flex justify='space-between' className={styles['pages-index-header']}>
                 <div className={styles['pages-index-header-drag']}></div>
                 <Space>
-                    <SkinOutlined style={{ cursor: 'pointer' }} />
+                    <Button>
+                        <SkinOutlined />
+                    </Button>
                     <Divider type="vertical" style={{ borderInlineStart: '1px solid #000' }} />
-                    <LineOutlined style={{ cursor: 'pointer' }} onClick={() => windowMin()} />
-                    <FullscreenOutlined style={{ cursor: 'pointer' }} onClick={() => window.electron.ipcRenderer.send('window-max')} />
-                    <CloseOutlined style={{ cursor: 'pointer' }} onClick={() => closeWindow()} />
+                    <Button onClick={() => windowMin()}><LineOutlined /></Button>
+                    <Button onClick={() => window.electron.ipcRenderer.send('window-max')}><FullscreenOutlined /></Button>
+                    <Button onClick={() => closeWindow()}><CloseOutlined /></Button>
                 </Space>
             </Flex>
 

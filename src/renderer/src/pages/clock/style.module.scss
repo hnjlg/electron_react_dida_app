@@ -1,0 +1,33 @@
+.focus-drawer-title {
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.focus-drawer-time {
+    font-size: 60px;
+    font-weight: 1000;
+}
+
+.clock {
+    height: 100%;
+
+    .plan-list {
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    .record-description {
+        flex: 1;
+
+        .echarts {
+            flex: 1;
+            background-color: green;
+        }
+
+        .log-list {
+            flex: 1;
+            background-color: blue;
+            overflow-y: auto;
+        }
+    }
+}

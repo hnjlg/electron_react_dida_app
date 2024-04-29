@@ -9,7 +9,7 @@ const AddAgentMatter = (props, ref) => {
 
     useImperativeHandle(ref, () => {
         return { formRef: AddFormRef }
-    })
+    });
 
     return <Modal title="新增代办事项" footer={null} {...props}>
         <Form

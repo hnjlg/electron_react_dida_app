@@ -1,5 +1,6 @@
 import { getOperateLogSql, addOperateLogSql } from '../../sqlite/sql/operate-log';
 import { getSettingSql, editSettingSql } from '../../sqlite/sql/setting';
+import { getFocusPlanSql, addFocusPlanSql } from '../../sqlite/sql/focus-plan';
 import agentMatterIpcInit from './agent-matter/index';
 import windowIpcInit from './window/index';
 
@@ -18,9 +19,9 @@ export default (mainWindow) => {
     windowIpcInit(mainWindow);
 
     // 查询操作日志
-    ipc.on('get-operate-logs', async (event, queryParams) => {
+    ipc.on('get-operate-logs', async (event, queryParams, options) => {
         const result = await getOperateLogSql(queryParams);
-        event.sender.send('get-operate-logs-callback', result);
+        event.sender.send('get-operate-logs-callback', result, options);
     });
 
     // 插入操作日志
@@ -39,6 +40,12 @@ export default (mainWindow) => {
         await editSettingSql(settingValue);
     });
 
+    ipc.on('get-focus-plan', async (event, queryParams) => {
+        const result = await getFocusPlanSql(queryParams);
+        event.sender.send('get-focus-plan-callback', result);
+    });
 
-
+    ipc.on('add-focus-plan', (event, focusPlan) => {
+        addFocusPlanSql(focusPlan);
+    });
 };

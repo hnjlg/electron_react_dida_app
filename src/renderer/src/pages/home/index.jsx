@@ -29,7 +29,7 @@ const Home = () => {
         pageSize: 10
     });
 
-    const getOperateLog = (queryParams) => window.electron.ipcRenderer.send('get-operate-logs', queryParams);
+    const getOperateLog = (queryParams, options = {}) => window.electron.ipcRenderer.send('get-operate-logs', queryParams, options);
 
     const getMore = () => {
         const newPageIndex = operateLogQueryParams.pageIndex + 1;
@@ -67,16 +67,26 @@ const Home = () => {
         }
     });
 
-    window.electron.ipcRenderer.on('get-operate-logs-callback', (event, operateLogs) => {
+    window.electron.ipcRenderer.on('get-operate-logs-callback', (event, operateLogs, options) => {
         if (operateLogs.length < operateLogQueryParams.pageSize) {
             setIsHasMoreLog(false);
         };
 
-        setTimelineData(timelineData.concat(operateLogs.map(item => {
-            return {
-                children: item.description + ' ' + item.create_time
-            }
-        })));
+        if (options.type === 'init') {
+            setTimelineData(operateLogs.map(item => {
+                return {
+                    children: item.description + ' ' + item.create_time
+                }
+            }));
+        } else {
+            setTimelineData(timelineData.concat(operateLogs.map(item => {
+                return {
+                    children: item.description + ' ' + item.create_time
+                }
+            })));
+        }
+
+
     });
 
     useEffect(() => {
@@ -95,7 +105,9 @@ const Home = () => {
         }, {
             state: AgentMatterState['已关闭']
         });
-        getOperateLog(operateLogQueryParams);
+        getOperateLog(operateLogQueryParams, {
+            type: 'init'
+        });
     }, []);
 
 

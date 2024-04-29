@@ -113,14 +113,23 @@ const AgentMattersList = () => {
                 renderItem={(item, index) => (
                     <List.Item>
                         <List.Item.Meta
-                            avatar={<CheckOutlined onClick={() => changeStateHandleIcon(item, item.state === AgentMatterState['已完成'] ? '待完成' : '已完成')} style={{
-                                cursor: 'pointer',
-                                color: item.state === AgentMatterState['已完成'] ? '#6BCD39' : ''
-                            }} />}
-                            title={<Flex justify='space-between'><span>{item.title}</span><CloseOutlined onClick={() => changeStateHandleIcon(item, '已关闭')} style={{
-                                cursor: 'pointer',
-                                color: item.state === AgentMatterState['已关闭'] ? '#FF4D4F' : ''
-                            }} /></Flex>}
+                            avatar={
+                                <Button onClick={() => changeStateHandleIcon(item, item.state === AgentMatterState['已完成'] ? '待完成' : '已完成')}>
+                                    <CheckOutlined style={{
+                                        cursor: 'pointer',
+                                        color: item.state === AgentMatterState['已完成'] ? '#6BCD39' : ''
+                                    }} />
+                                </Button>
+                            }
+                            title={<Flex justify='space-between'>
+                                <span>{item.title}</span>
+                                <Button onClick={() => changeStateHandleIcon(item, '已关闭')}>
+                                    <CloseOutlined style={{
+                                        cursor: 'pointer',
+                                        color: item.state === AgentMatterState['已关闭'] ? '#FF4D4F' : ''
+                                    }} />
+                                </Button>
+                            </Flex>}
                             description={
                                 <Flex vertical>
                                     <div>{item.begin_time} ~ {item.end_time}</div>
