@@ -166,7 +166,7 @@ const Clock = () => {
                                         FocusDrawerRef.current.setOpen(true);
                                         setCurrentPlan({
                                             ...item,
-                                            time: Date.now() + item.time
+                                            time: Date.now() + Number(item.time) * 1000
                                         });
                                     }}><PlayCircleOutlined /></Button>
                                 </Flex>
