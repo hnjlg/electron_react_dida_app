@@ -144,6 +144,10 @@ const Clock = () => {
         window.electron.ipcRenderer.send('get-focus-plan');
     }, []);
 
+    const planLogList = [
+        1, 2, 3, 4, 5, 6, 7
+    ];
+
     return (
         <>
             <Flex className={styles['clock']}>
@@ -175,8 +179,28 @@ const Clock = () => {
                     />
                 </div >
                 <Flex vertical className={styles['record-description']}>
-                    <div className={styles['echarts']}>2</div>
-                    <div className={styles['log-list']}>3</div>
+                    <div className={styles['echarts']}>轮播图+echarts图</div>
+                    <div className={styles['log-list']}>
+                        <List
+                            header={<Flex justify='space-between'>
+                                <div>专注记录</div>
+                            </Flex>}
+                            bordered
+                            dataSource={planLogList}
+                            renderItem={(item) => (
+                                <List.Item>
+                                    <Flex justify='space-between' style={{ width: '100%' }}>
+                                        <div>
+                                            标题
+                                        </div>
+                                        <div>
+                                            00:15:56/01:00:00
+                                        </div>
+                                    </Flex>
+                                </List.Item>
+                            )}
+                        />
+                    </div>
                 </Flex>
             </Flex >
 
