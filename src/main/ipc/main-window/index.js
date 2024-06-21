@@ -3,6 +3,7 @@ import { getSettingSql, editSettingSql } from '../../sqlite/sql/setting';
 import { getFocusPlanSql, addFocusPlanSql } from '../../sqlite/sql/focus-plan';
 import agentMatterIpcInit from './agent-matter/index';
 import windowIpcInit from './window/index';
+import workMenuIpcInit from './work_bench/index'
 
 /* 
     主窗口所有ipc
@@ -11,6 +12,9 @@ import windowIpcInit from './window/index';
 export default (mainWindow) => {
 
     const ipc = mainWindow.webContents.ipc;
+
+    //工作台ipc
+    workMenuIpcInit(ipc)
 
     // 事项ipc
     agentMatterIpcInit(ipc);

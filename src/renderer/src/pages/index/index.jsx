@@ -11,14 +11,15 @@ import {
     HourglassOutlined,
     AppstoreOutlined
 } from '@ant-design/icons';
-import { Menu, Flex, Modal, Image, ConfigProvider, Space, Divider, Button, Radio } from 'antd';
+import { Menu, Flex, Modal, Image, ConfigProvider, Space, Divider, Button, Radio, theme } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom'
 import styles from './style.module.scss'
 import { useState, useRef, useEffect } from 'react';
 import AddAgentMatter from '@renderer/components/add-agent-matter';
 import { CloseSystemType } from '@renderer/globalConfig'
 
-const Header = () => {
+const Header = ({ toggleTheme, theme }) => {
+
 
     const [settingConfig, setSettingConfig] = useState({});
 
@@ -57,11 +58,15 @@ const Header = () => {
     }, [])
 
     return (
-        <>
-            <Flex justify='space-between' className={styles['pages-index-header']}>
-                <div className={styles['pages-index-header-drag']}></div>
+        <ConfigProvider theme={{
+            "token": theme,
+        }}>
+            <Flex justify='space-between' className={styles['pages-index-header']} style={{
+                'backgroundColor': theme.colorBgBase
+            }} >
+                <div className={styles['pages-index-header-drag']} style={{ 'backgroundColor': theme.colorBgBase }}></div>
                 <Space>
-                    <Button>
+                    <Button onClick={() => toggleTheme()}>
                         <SkinOutlined />
                     </Button>
                     <Divider type="vertical" style={{ borderInlineStart: '1px solid #000' }} />
@@ -101,7 +106,7 @@ const Header = () => {
                     setIsRemember(!isRemember);
                 }}>记住选择，下次不再提示</Radio>
             </Modal >
-        </>
+        </ConfigProvider>
     )
 }
 
@@ -143,6 +148,16 @@ const bottomMenus = [
     },
 ];
 
+const darkTheme = {
+    "colorTextBase": "#FFF",
+    "colorBgBase": "#000"
+}
+
+const lightTheme = {
+    "colorTextBase": "#000",
+    "colorBgBase": "#FFF"
+}
+
 const Index = () => {
 
     const location = useLocation();
@@ -154,6 +169,13 @@ const Index = () => {
     const [isAddAgentMatterModalOpen, setIsAddAgentMatterModalOpen] = useState(false);
 
     const [configOption, setConfigOption] = useState({});
+
+    const [theme, setTheme] = useState(lightTheme);
+
+    // 切换主题逻辑
+    const toggleTheme = () => {
+        setTheme(theme === lightTheme ? darkTheme : lightTheme);
+    };
 
     const AddAgentMatterRef = useRef(null);
 
@@ -203,15 +225,20 @@ const Index = () => {
     };
 
     return (
-        <ConfigProvider componentSize={configOption.componentSize}>
-            <Header></Header>
+        <ConfigProvider componentSize={configOption.componentSize} theme={{
+            "token": theme,
+        }}>
+            <Header toggleTheme={toggleTheme} theme={theme}></Header>
             <Flex className={styles['pages-index']}>
-                <Flex vertical className={styles['pages-index-left']}>
+                <Flex vertical className={styles['pages-index-left']} style={{
+                    'backgroundColor': theme.colorBgBase,
+                    'color': theme.colorTextBase
+                }}>
                     <Flex vertical justify='center' align='center' className={styles['pages-index-left-header']} onClick={() => logoClick()}>
                         <div className={styles['pages-index-logo']}></div>
                         <div className={styles['pages-index-logo-text']}>迪达</div>
                     </Flex>
-                    <Flex vertical justify='space-between' flex='1'>
+                    <Flex vertical justify='space-between' flex='1' >
                         <Menu
                             selectedKeys={[location.pathname]}
                             mode="inline"
@@ -228,7 +255,7 @@ const Index = () => {
                         />
                     </Flex>
                 </Flex>
-                <div className={styles['pages-index-outlet']}>
+                <div className={styles['pages-index-outlet']} >
                     <Outlet />
                 </div>
             </Flex>

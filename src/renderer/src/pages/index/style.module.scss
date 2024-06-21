@@ -24,8 +24,8 @@ $pages-index-header-padding: 10px;
     background-color: #fff;
 
     .pages-index-left {
-        height: calc(100% - $system-border-radius-size);
         overflow-y: auto;
+        border-radius: 0 0 0 $system-border-radius-size;
 
         .pages-index-left-header {
             width: 80px;
@@ -49,10 +49,9 @@ $pages-index-header-padding: 10px;
 
     .pages-index-outlet {
         flex: 1;
-        background: linear-gradient(to bottom right, #E2EDFB, #F7F9FC);
-        border-radius: 5px;
+        background: linear-gradient(to bottom right, #000, #FFF);
+        border-radius: 0 0 5px 0;
         padding: 10px;
         overflow-y: auto;
-        margin-right: 10px;
     }
 }
