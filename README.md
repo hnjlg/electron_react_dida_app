@@ -11,7 +11,7 @@ An Electron application with React
 ### Install
 
 ```bash
-$ cnpm install
+$ 删除 package.json中的sqlite3  然后npm i 再执行 npm i sqlite3@5.1.7
 ```
 
 ### Development
@@ -35,7 +35,6 @@ $ npm run build:linux
 
 # 问题备注
 
-事项编辑页，需要做分页查询，且编辑之后，做单个修改，而不是调用页面sql重新刷新，且只能看到待完成的
 快捷键支持用户修改，需要监听一些键盘功能键，如果有难度，可以先用输入框，存储到数据库
 自定义图标右键操作
 安装支持选择安装目录，开机自启，桌面快捷图标
