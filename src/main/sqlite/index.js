@@ -54,6 +54,24 @@ const createTable = (versionResult) => {
             time                        VARCHAR (50) NOT NULL,
             count                       VARCHAR (50) NOT NULL default 0
         );`);
+
+        //工作台菜单表
+        db.run(`CREATE TABLE work_menu (
+            id        INTEGER      PRIMARY KEY AUTOINCREMENT,
+            menu_name VARCHAR (50) NOT NULL,
+            menu_key  VARCHAR (50) NOT NULL
+                                   CONSTRAINT 菜单名 UNIQUE
+        );`);
+
+        //工作台链接表
+        db.run(`CREATE TABLE work_link (
+            id          INTEGER      PRIMARY KEY AUTOINCREMENT,
+            menu_key    VARCHAR (50) CONSTRAINT 菜单名 REFERENCES work_menu (menu_key) 
+                                     NOT NULL,
+            window_name VARCHAR (50) NOT NULL,
+            url         VARCHAR (50) NOT NULL
+        );
+        `)
     });
 }
 
