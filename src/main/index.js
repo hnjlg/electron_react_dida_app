@@ -112,6 +112,10 @@ app.whenReady().then(() => {
   // 打开主窗口
   createWindow()
 
+  app.on('ready', () => {
+    // 设置为合适的数量，比如设置为 20
+    ipcMain.setMaxListeners(20);
+  });
   // 如果没有窗口打开则打开一个窗口
   app.on('activate', function () {
     /* 

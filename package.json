@@ -1,51 +1,54 @@
 {
-  "name": "dida-app",
-  "version": "0.0.1",
-  "description": "An Electron application with React",
-  "main": "./out/main/index.js",
-  "author": "example.com",
-  "homepage": "https://electron-vite.org",
-  "scripts": {
-    "format": "prettier --write .",
-    "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
-    "start": "electron-vite preview",
-    "dev": "electron-vite dev",
-    "build": "electron-vite build",
-    "postinstall": "electron-builder install-app-deps",
-    "build:unpack": "npm run build && electron-builder --dir",
-    "build:win": "npm run build && electron-builder --win",
-    "build:mac": "npm run build && electron-builder --mac",
-    "build:linux": "npm run build && electron-builder --linux"
-  },
-  "dependencies": {
-    "@electron-toolkit/preload": "^3.0.0",
-    "@electron-toolkit/utils": "^3.0.0",
-    "antd": "^5.16.4",
-    "electron-updater": "^6.1.7",
-    "lodash-es": "^4.17.21",
-    "react-countdown": "^2.3.5",
-    "react-countup": "^6.5.3",
-    "react-loader-spinner": "^6.1.6",
-    "react-router-dom": "^6.22.3",
-    "rebuild": "^0.1.2",
-    "sqlite3": "^5.1.7"
-  },
-  "devDependencies": {
-    "@electron-toolkit/eslint-config": "^1.0.2",
-    "@electron-toolkit/eslint-config-prettier": "^2.0.0",
-    "@vitejs/plugin-react": "^4.2.1",
-    "electron": "^28.2.0",
-    "electron-builder": "^24.13.3",
-    "electron-vite": "^2.0.0",
-    "eslint": "^8.56.0",
-    "eslint-plugin-react": "^7.33.2",
-    "prettier": "^3.2.4",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "sass": "^1.75.0",
-    "vite": "^5.0.12"
-  },
-  "engines": {
-    "node": "18.12.x"
-  }
+	"name": "dida-app",
+	"version": "0.0.1",
+	"description": "An Electron application with React",
+	"main": "./out/main/index.js",
+	"author": "example.com",
+	"homepage": "https://electron-vite.org",
+	"scripts": {
+		"format": "prettier --write .",
+		"lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
+		"start": "electron-vite preview",
+		"dev": "electron-vite dev",
+		"build": "electron-vite build",
+		"postinstall": "electron-builder install-app-deps",
+		"build:unpack": "npm run build && electron-builder --dir",
+		"build:win": "npm run build && electron-builder --win",
+		"build:mac": "npm run build && electron-builder --mac",
+		"build:linux": "npm run build && electron-builder --linux"
+	},
+	"dependencies": {
+		"@electron-toolkit/preload": "^3.0.0",
+		"@electron-toolkit/utils": "^3.0.0",
+		"antd": "^5.16.4",
+		"dirname": "^0.1.0",
+		"electron-updater": "^6.1.7",
+		"less": "^4.2.0",
+		"less-loader": "^12.2.0",
+		"lodash-es": "^4.17.21",
+		"react-countdown": "^2.3.5",
+		"react-countup": "^6.5.3",
+		"react-loader-spinner": "^6.1.6",
+		"react-router-dom": "^6.22.3",
+		"rebuild": "^0.1.2",
+		"sqlite3": "^5.1.7"
+	},
+	"devDependencies": {
+		"@electron-toolkit/eslint-config": "^1.0.2",
+		"@electron-toolkit/eslint-config-prettier": "^2.0.0",
+		"@vitejs/plugin-react": "^4.2.1",
+		"electron": "^28.2.0",
+		"electron-builder": "^24.13.3",
+		"electron-vite": "^2.0.0",
+		"eslint": "^8.56.0",
+		"eslint-plugin-react": "^7.33.2",
+		"prettier": "^3.2.4",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"sass": "^1.75.0",
+		"vite": "^5.0.12"
+	},
+	"engines": {
+		"node": "18.12.x"
+	}
 }
