@@ -11,19 +11,30 @@ import {
     HourglassOutlined,
     AppstoreOutlined
 } from '@ant-design/icons';
-import { Menu, Flex, Modal, Image, ConfigProvider, Space, Divider, Button, Radio, theme } from 'antd';
+import { Menu, Flex, Modal, Image, ConfigProvider, Space, Divider, Button, Radio } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom'
 import styles from './style.module.scss'
 import { useState, useRef, useEffect } from 'react';
 import AddAgentMatter from '@renderer/components/add-agent-matter';
-import { CloseSystemType } from '@renderer/globalConfig'
+import { CloseSystemType } from '@renderer/globalConfig';
+import { useThemeStore, lightTheme, darkTheme } from '@renderer/store/theme';
 
-const Header = ({ toggleTheme, theme }) => {
-
+const Header = () => {
 
     const [settingConfig, setSettingConfig] = useState({});
 
     const [isRemember, setIsRemember] = useState(false);
+
+    const theme = useThemeStore(state => state.theme);
+
+    const themeValue = useThemeStore(state => state.themeValue);
+
+    const setTheme = useThemeStore(state => state.setTheme);
+
+    // 切换主题逻辑
+    const toggleTheme = () => {
+        setTheme(themeValue === 'lightTheme' ? 'darkTheme' : 'lightTheme');
+    };
 
     window.electron.ipcRenderer.on('get-setting-callback', (event, settingValue) => {
         setSettingConfig(settingValue);
@@ -148,16 +159,6 @@ const bottomMenus = [
     },
 ];
 
-const darkTheme = {
-    "colorTextBase": "#FFF",
-    "colorBgBase": "#000"
-}
-
-const lightTheme = {
-    "colorTextBase": "#000",
-    "colorBgBase": "#FFF"
-}
-
 const Index = () => {
 
     const location = useLocation();
@@ -170,12 +171,7 @@ const Index = () => {
 
     const [configOption, setConfigOption] = useState({});
 
-    const [theme, setTheme] = useState(lightTheme);
-
-    // 切换主题逻辑
-    const toggleTheme = () => {
-        setTheme(theme === lightTheme ? darkTheme : lightTheme);
-    };
+    const theme = useThemeStore(state => state.theme);
 
     const AddAgentMatterRef = useRef(null);
 
@@ -228,7 +224,7 @@ const Index = () => {
         <ConfigProvider componentSize={configOption.componentSize} theme={{
             "token": theme,
         }}>
-            <Header toggleTheme={toggleTheme} theme={theme}></Header>
+            <Header></Header>
             <Flex className={styles['pages-index']}>
                 <Flex vertical className={styles['pages-index-left']} style={{
                     'backgroundColor': theme.colorBgBase,
