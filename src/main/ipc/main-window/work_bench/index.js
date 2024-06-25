@@ -42,10 +42,7 @@ export default (ipc) => {
     });
 
     ipc.on('delete-link', async (event, id) => {
-        const link = await getLinkSql(id);
         await deleteLinkSql(id);
-        const links = await getLinkSql(link[0].menu_key);
-        event.reply('get-links-callback', links);
     });
 
 }

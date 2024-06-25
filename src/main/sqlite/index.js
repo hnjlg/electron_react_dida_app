@@ -56,7 +56,7 @@ const createTable = (versionResult) => {
         );`);
 
         //工作台菜单表
-        db.run(`CREATE TABLE work_menu (
+        db.run(`CREATE TABLE IF NOT EXISTS work_menu1 (
             id        INTEGER      PRIMARY KEY AUTOINCREMENT,
             menu_name VARCHAR (50) NOT NULL,
             menu_key  VARCHAR (50) NOT NULL
@@ -64,12 +64,12 @@ const createTable = (versionResult) => {
         );`);
 
         //工作台链接表
-        db.run(`CREATE TABLE work_link (
+        db.run(`CREATE TABLE IF NOT EXISTS work_link1 (
             id          INTEGER      PRIMARY KEY AUTOINCREMENT,
-            menu_key    VARCHAR (50) CONSTRAINT 菜单名 REFERENCES work_menu (menu_key) 
-                                     NOT NULL,
+            menu_key    VARCHAR (50) NOT NULL, 
             window_name VARCHAR (50) NOT NULL,
-            url         VARCHAR (50) NOT NULL
+            url         VARCHAR (50) NOT NULL,
+            FOREIGN KEY (menu_key) REFERENCES work_menu (menu_key)
         );
         `)
     });
