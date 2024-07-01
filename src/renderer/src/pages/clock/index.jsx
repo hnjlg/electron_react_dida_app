@@ -1,10 +1,71 @@
 import { useState, useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
 import Countdown from 'react-countdown';
-import { Flex, List, Button, Divider, Modal, Form, Input, TimePicker, Drawer, message } from 'antd';
+import { Flex, List, Button, Divider, Modal, Form, Input, TimePicker, Drawer, Tabs, message } from 'antd';
 import { PlusCircleOutlined, PlayCircleOutlined, PoweroffOutlined, ExpandOutlined } from '@ant-design/icons';
 import { Hourglass } from 'react-loader-spinner';
 import dayjs from 'dayjs';
 import styles from './style.module.scss';
+import * as echarts from 'echarts';
+
+const Echarts = (props) => {
+    const chartRef = useRef()
+    const options = {
+        title: {
+            text: "柱状图"
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        // 图例组件
+        legend: {
+            data: ['销量'],
+            show: true
+        },
+        // x轴
+        xAxis: {
+            type: 'category',
+            data: ['冬瓜', '茄子', '丝瓜', '玉米', '红薯', '西红柿', '芹菜']
+        },
+        // y轴
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            data: [20, 9, 39, 43, 60, 18, 50],
+            type: 'bar', // 柱状图
+            name: '销量'
+        }]
+    }
+
+    useEffect(() => {
+        // 创建一个echarts实例，返回echarts实例。不能在单个容器中创建多个echarts实例
+        const chart = echarts.init(chartRef.current)
+
+        // 设置图表实例的配置项和数据
+        chart.setOption(options)
+
+        window.addEventListener('resize', function () {
+            chart.resize();
+        });
+
+        // 组件卸载
+        return () => {
+            // chart.dispose() 销毁实例。实例销毁后无法再被使用
+            chart.dispose();
+            window.removeEventListener('resize', function () {
+                chart.resize();
+            });
+        }
+    }, [])
+
+    return (
+        // 把图表封装单独放入一个组件中
+        <div style={{ width: "100%", height: "240px" }} ref={chartRef}></div>
+    )
+}
+
+
+
 
 const FocusDrawer = forwardRef(({ time, title }, ref) => {
 
@@ -157,7 +218,6 @@ const Clock = () => {
                             <div>专注计划</div>
                             <Button onClick={() => { setIsAddModalOpen(true) }} icon={<PlusCircleOutlined />}></Button>
                         </Flex>}
-                        bordered
                         dataSource={planList}
                         renderItem={(item) => (
                             <List.Item>
@@ -179,13 +239,24 @@ const Clock = () => {
                     />
                 </div >
                 <Flex vertical className={styles['record-description']}>
-                    <div className={styles['echarts']}>轮播图+echarts图</div>
+                    <div className={styles['echarts']}>
+                        <Tabs
+                            tabPosition={'bottom'}
+                            items={new Array(3).fill(null).map((_, i) => {
+                                const id = String(i + 1);
+                                return {
+                                    label: `Tab ${id}`,
+                                    key: id,
+                                    children: <Echarts></Echarts>,
+                                };
+                            })}
+                        />
+                    </div>
                     <div className={styles['log-list']}>
                         <List
                             header={<Flex justify='space-between'>
                                 <div>专注记录</div>
                             </Flex>}
-                            bordered
                             dataSource={planLogList}
                             renderItem={(item) => (
                                 <List.Item>
