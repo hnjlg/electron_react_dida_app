@@ -225,7 +225,7 @@ const Index = () => {
             "token": theme,
         }}>
             <Header></Header>
-            <Flex className={styles['pages-index']}>
+            <Flex className={styles['pages-index']} style={{ backgroundColor: theme.colorTextBase }}>
                 <Flex vertical className={styles['pages-index-left']} style={{
                     'backgroundColor': theme.colorBgBase,
                     'color': theme.colorTextBase
@@ -251,7 +251,7 @@ const Index = () => {
                         />
                     </Flex>
                 </Flex>
-                <div className={styles['pages-index-outlet']} >
+                <div className={styles['pages-index-outlet']} style={{ backgroundColor: theme.colorBgBase }} >
                     <Outlet />
                 </div>
             </Flex>

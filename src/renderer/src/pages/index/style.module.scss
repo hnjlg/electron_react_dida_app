@@ -49,9 +49,10 @@ $pages-index-header-padding: 10px;
 
     .pages-index-outlet {
         flex: 1;
-        background: linear-gradient(to bottom right, #000, #FFF);
         border-radius: 0 0 5px 0;
         padding: 10px;
         overflow-y: auto;
+        margin: 1px;
+        border-radius: 0 0 $system-border-radius-size 0;
     }
 }
