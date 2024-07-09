@@ -37,8 +37,8 @@ const About = () => {
 						NoAdvantages
 					</Tag>
 					<Tag icon={<GithubOutlined />} color="#232625">
-						<a href="https://github.com/hnjlg/electron_react_dida_app" target="_blank">
-							hnjlg/electron_react_dida_app
+						<a href={import.meta.env.RENDERER_VITE_GITHUB_URL} target="_blank">
+							github
 						</a>
 					</Tag>
 				</Flex>
