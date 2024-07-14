@@ -6,6 +6,7 @@ import workMenuIpcInit from './work-bench/index';
 import focusPlanInit from './focus-plan';
 import focusPlanLogInit from './focus-plan-log';
 import constant from '../../constant';
+import versionInit from './version/index';
 /* 
     主窗口所有ipc
 */
@@ -27,6 +28,9 @@ export default (mainWindow) => {
 
 	// 专注计划记录
 	focusPlanLogInit(ipc);
+
+	// 版本更新
+	versionInit(ipc);
 
 	// 查询操作日志
 	ipc.on('get-operate-logs', async (event, queryParams, options) => {
